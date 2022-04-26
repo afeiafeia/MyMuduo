@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/Test_Log.dir/Test_Log.cpp.o  -o Test_Log -lbase 

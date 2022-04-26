@@ -1,0 +1,18 @@
+syntax = "proto2";
+
+package afa;
+
+message ProtoRequest
+{
+    required string message_name = 1;
+}
+
+message ProtoResponse
+{
+    required string message_name = 1;
+}
+
+service RpcService
+{
+    rpc GetService (ProtoRequest) returns (ProtoResponse);
+}

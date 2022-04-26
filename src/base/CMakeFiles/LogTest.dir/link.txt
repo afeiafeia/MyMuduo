@@ -1,0 +1,1 @@
+/usr/bin/c++   -O0 -Wall -g -ggdb     -o LogTest libbase.a -lpthread -lrt 

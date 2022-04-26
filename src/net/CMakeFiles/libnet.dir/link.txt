@@ -1,0 +1,2 @@
+/usr/bin/ar qc libnet.a  CMakeFiles/libnet.dir/EventLoop.cpp.o CMakeFiles/libnet.dir/EventLoopThread.cpp.o CMakeFiles/libnet.dir/EventLoopThreadPool.cpp.o
+/usr/bin/ranlib libnet.a

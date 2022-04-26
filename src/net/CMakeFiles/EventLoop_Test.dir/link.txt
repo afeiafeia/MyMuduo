@@ -1,0 +1,1 @@
+/usr/bin/c++   -O0 -Wall -g -ggdb   CMakeFiles/EventLoop_Test.dir/EventLoop_Test.cpp.o  -o EventLoop_Test libnet.a -lbase 
