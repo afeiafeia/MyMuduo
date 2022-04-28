@@ -1,3 +1,0 @@
-/home/zaf/MyTinyMuduo/test/CMakeFiles/rebuild_cache.dir
-/home/zaf/MyTinyMuduo/test/CMakeFiles/Test_Log.dir
-/home/zaf/MyTinyMuduo/test/CMakeFiles/edit_cache.dir
