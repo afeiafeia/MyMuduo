@@ -1,1 +1,0 @@
-/usr/bin/c++   -O0 -Wall -g -ggdb   CMakeFiles/test_thread.dir/test_thread.cpp.o  -o test_thread ../libmy_tiny_muduo_base.a -lpthread -lrt 

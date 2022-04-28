@@ -1,1 +1,0 @@
-/usr/bin/c++   -O0 -Wall -g -ggdb   CMakeFiles/test_echo_main.dir/test_echo_main.cpp.o  -o test_echo_main  -L/home/zaf/MyProject/MyMuduo/src/net/test/.. -Wl,-rpath,/home/zaf/MyProject/MyMuduo/src/net/test/.. ../libmy_tiny_muduo_net.a -lpthread -lprotobuf -lrt 
