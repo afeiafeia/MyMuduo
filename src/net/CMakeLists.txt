@@ -38,12 +38,12 @@ set(LIB_NET
     ${LIB_RPC}
     ${LIB_SRC}
 )
+
 add_library(my_tiny_muduo_net ${LIB_NET})
 target_link_libraries(my_tiny_muduo_net pthread protobuf rt)
 #set_target_properties((my_tiny_muduo_net PROPERTIES OUTPUT_NAME "net")
 
-add_subdirectory(test)
 #add_executable(Test_EventLoop Test_EventLoop.cpp)
 #target_link_libraries(Test_EventLoop my_tiny_muduo_net)
 
-
+add_subdirectory(test)

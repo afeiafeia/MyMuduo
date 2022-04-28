@@ -8,7 +8,7 @@ namespace afa
     class Buffer
     {
     public:
-        static const ssize_t KPrepend = 8;
+        static const ssize_t KPrepend = 4;
         static const ssize_t KinitSize = 1024;
 
         static const ssize_t KTmpBuffSize = 65535;

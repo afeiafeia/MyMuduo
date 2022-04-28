@@ -48,24 +48,13 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/zaf/MyProject/MyTinyMuduo/src/net
+CMAKE_SOURCE_DIR = /home/zaf/MyProject/MyMuduo/src/net
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/zaf/MyProject/MyTinyMuduo/src/net
+CMAKE_BINARY_DIR = /home/zaf/MyProject/MyMuduo/src/net
 
 #=============================================================================
 # Targets provided globally by CMake.
-
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
 
 # Special rule for the target rebuild_cache
 rebuild_cache:
@@ -78,16 +67,27 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
 # The main all target
 all: cmake_check_build_system
-	cd /home/zaf/MyProject/MyTinyMuduo/src/net && $(CMAKE_COMMAND) -E cmake_progress_start /home/zaf/MyProject/MyTinyMuduo/src/net/CMakeFiles /home/zaf/MyProject/MyTinyMuduo/src/net/test/CMakeFiles/progress.marks
-	cd /home/zaf/MyProject/MyTinyMuduo/src/net && $(MAKE) -f CMakeFiles/Makefile2 test/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/zaf/MyProject/MyTinyMuduo/src/net/CMakeFiles 0
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(CMAKE_COMMAND) -E cmake_progress_start /home/zaf/MyProject/MyMuduo/src/net/CMakeFiles /home/zaf/MyProject/MyMuduo/src/net/test/CMakeFiles/progress.marks
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f CMakeFiles/Makefile2 test/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/zaf/MyProject/MyMuduo/src/net/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/zaf/MyProject/MyTinyMuduo/src/net && $(MAKE) -f CMakeFiles/Makefile2 test/clean
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f CMakeFiles/Makefile2 test/clean
 .PHONY : clean
 
 # The main clean target
@@ -97,52 +97,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/zaf/MyProject/MyTinyMuduo/src/net && $(MAKE) -f CMakeFiles/Makefile2 test/preinstall
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f CMakeFiles/Makefile2 test/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/zaf/MyProject/MyTinyMuduo/src/net && $(MAKE) -f CMakeFiles/Makefile2 test/preinstall
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f CMakeFiles/Makefile2 test/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/zaf/MyProject/MyTinyMuduo/src/net && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
-test/CMakeFiles/test_echo_main.dir/rule:
-	cd /home/zaf/MyProject/MyTinyMuduo/src/net && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/test_echo_main.dir/rule
-.PHONY : test/CMakeFiles/test_echo_main.dir/rule
-
-# Convenience name for target.
-test_echo_main: test/CMakeFiles/test_echo_main.dir/rule
-
-.PHONY : test_echo_main
-
-# fast build rule for target.
-test_echo_main/fast:
-	cd /home/zaf/MyProject/MyTinyMuduo/src/net && $(MAKE) -f test/CMakeFiles/test_echo_main.dir/build.make test/CMakeFiles/test_echo_main.dir/build
-.PHONY : test_echo_main/fast
-
-# Convenience name for target.
-test/CMakeFiles/Test_EventLoop.dir/rule:
-	cd /home/zaf/MyProject/MyTinyMuduo/src/net && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/Test_EventLoop.dir/rule
-.PHONY : test/CMakeFiles/Test_EventLoop.dir/rule
-
-# Convenience name for target.
-Test_EventLoop: test/CMakeFiles/Test_EventLoop.dir/rule
-
-.PHONY : Test_EventLoop
-
-# fast build rule for target.
-Test_EventLoop/fast:
-	cd /home/zaf/MyProject/MyTinyMuduo/src/net && $(MAKE) -f test/CMakeFiles/Test_EventLoop.dir/build.make test/CMakeFiles/Test_EventLoop.dir/build
-.PHONY : Test_EventLoop/fast
-
-# Convenience name for target.
 test/CMakeFiles/test_echo.dir/rule:
-	cd /home/zaf/MyProject/MyTinyMuduo/src/net && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/test_echo.dir/rule
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/test_echo.dir/rule
 .PHONY : test/CMakeFiles/test_echo.dir/rule
 
 # Convenience name for target.
@@ -152,8 +122,68 @@ test_echo: test/CMakeFiles/test_echo.dir/rule
 
 # fast build rule for target.
 test_echo/fast:
-	cd /home/zaf/MyProject/MyTinyMuduo/src/net && $(MAKE) -f test/CMakeFiles/test_echo.dir/build.make test/CMakeFiles/test_echo.dir/build
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f test/CMakeFiles/test_echo.dir/build.make test/CMakeFiles/test_echo.dir/build
 .PHONY : test_echo/fast
+
+# Convenience name for target.
+test/CMakeFiles/rpc_client.dir/rule:
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/rpc_client.dir/rule
+.PHONY : test/CMakeFiles/rpc_client.dir/rule
+
+# Convenience name for target.
+rpc_client: test/CMakeFiles/rpc_client.dir/rule
+
+.PHONY : rpc_client
+
+# fast build rule for target.
+rpc_client/fast:
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f test/CMakeFiles/rpc_client.dir/build.make test/CMakeFiles/rpc_client.dir/build
+.PHONY : rpc_client/fast
+
+# Convenience name for target.
+test/CMakeFiles/rpc_server.dir/rule:
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/rpc_server.dir/rule
+.PHONY : test/CMakeFiles/rpc_server.dir/rule
+
+# Convenience name for target.
+rpc_server: test/CMakeFiles/rpc_server.dir/rule
+
+.PHONY : rpc_server
+
+# fast build rule for target.
+rpc_server/fast:
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f test/CMakeFiles/rpc_server.dir/build.make test/CMakeFiles/rpc_server.dir/build
+.PHONY : rpc_server/fast
+
+# Convenience name for target.
+test/CMakeFiles/Test_EventLoop.dir/rule:
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/Test_EventLoop.dir/rule
+.PHONY : test/CMakeFiles/Test_EventLoop.dir/rule
+
+# Convenience name for target.
+Test_EventLoop: test/CMakeFiles/Test_EventLoop.dir/rule
+
+.PHONY : Test_EventLoop
+
+# fast build rule for target.
+Test_EventLoop/fast:
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f test/CMakeFiles/Test_EventLoop.dir/build.make test/CMakeFiles/Test_EventLoop.dir/build
+.PHONY : Test_EventLoop/fast
+
+# Convenience name for target.
+test/CMakeFiles/test_echo_main.dir/rule:
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/test_echo_main.dir/rule
+.PHONY : test/CMakeFiles/test_echo_main.dir/rule
+
+# Convenience name for target.
+test_echo_main: test/CMakeFiles/test_echo_main.dir/rule
+
+.PHONY : test_echo_main
+
+# fast build rule for target.
+test_echo_main/fast:
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f test/CMakeFiles/test_echo_main.dir/build.make test/CMakeFiles/test_echo_main.dir/build
+.PHONY : test_echo_main/fast
 
 Test_EventLoop.o: Test_EventLoop.cpp.o
 
@@ -161,7 +191,7 @@ Test_EventLoop.o: Test_EventLoop.cpp.o
 
 # target to build an object file
 Test_EventLoop.cpp.o:
-	cd /home/zaf/MyProject/MyTinyMuduo/src/net && $(MAKE) -f test/CMakeFiles/Test_EventLoop.dir/build.make test/CMakeFiles/Test_EventLoop.dir/Test_EventLoop.cpp.o
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f test/CMakeFiles/Test_EventLoop.dir/build.make test/CMakeFiles/Test_EventLoop.dir/Test_EventLoop.cpp.o
 .PHONY : Test_EventLoop.cpp.o
 
 Test_EventLoop.i: Test_EventLoop.cpp.i
@@ -170,7 +200,7 @@ Test_EventLoop.i: Test_EventLoop.cpp.i
 
 # target to preprocess a source file
 Test_EventLoop.cpp.i:
-	cd /home/zaf/MyProject/MyTinyMuduo/src/net && $(MAKE) -f test/CMakeFiles/Test_EventLoop.dir/build.make test/CMakeFiles/Test_EventLoop.dir/Test_EventLoop.cpp.i
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f test/CMakeFiles/Test_EventLoop.dir/build.make test/CMakeFiles/Test_EventLoop.dir/Test_EventLoop.cpp.i
 .PHONY : Test_EventLoop.cpp.i
 
 Test_EventLoop.s: Test_EventLoop.cpp.s
@@ -179,8 +209,62 @@ Test_EventLoop.s: Test_EventLoop.cpp.s
 
 # target to generate assembly for a file
 Test_EventLoop.cpp.s:
-	cd /home/zaf/MyProject/MyTinyMuduo/src/net && $(MAKE) -f test/CMakeFiles/Test_EventLoop.dir/build.make test/CMakeFiles/Test_EventLoop.dir/Test_EventLoop.cpp.s
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f test/CMakeFiles/Test_EventLoop.dir/build.make test/CMakeFiles/Test_EventLoop.dir/Test_EventLoop.cpp.s
 .PHONY : Test_EventLoop.cpp.s
+
+rpc/client.o: rpc/client.cpp.o
+
+.PHONY : rpc/client.o
+
+# target to build an object file
+rpc/client.cpp.o:
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f test/CMakeFiles/rpc_client.dir/build.make test/CMakeFiles/rpc_client.dir/rpc/client.cpp.o
+.PHONY : rpc/client.cpp.o
+
+rpc/client.i: rpc/client.cpp.i
+
+.PHONY : rpc/client.i
+
+# target to preprocess a source file
+rpc/client.cpp.i:
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f test/CMakeFiles/rpc_client.dir/build.make test/CMakeFiles/rpc_client.dir/rpc/client.cpp.i
+.PHONY : rpc/client.cpp.i
+
+rpc/client.s: rpc/client.cpp.s
+
+.PHONY : rpc/client.s
+
+# target to generate assembly for a file
+rpc/client.cpp.s:
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f test/CMakeFiles/rpc_client.dir/build.make test/CMakeFiles/rpc_client.dir/rpc/client.cpp.s
+.PHONY : rpc/client.cpp.s
+
+rpc/server.o: rpc/server.cpp.o
+
+.PHONY : rpc/server.o
+
+# target to build an object file
+rpc/server.cpp.o:
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f test/CMakeFiles/rpc_server.dir/build.make test/CMakeFiles/rpc_server.dir/rpc/server.cpp.o
+.PHONY : rpc/server.cpp.o
+
+rpc/server.i: rpc/server.cpp.i
+
+.PHONY : rpc/server.i
+
+# target to preprocess a source file
+rpc/server.cpp.i:
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f test/CMakeFiles/rpc_server.dir/build.make test/CMakeFiles/rpc_server.dir/rpc/server.cpp.i
+.PHONY : rpc/server.cpp.i
+
+rpc/server.s: rpc/server.cpp.s
+
+.PHONY : rpc/server.s
+
+# target to generate assembly for a file
+rpc/server.cpp.s:
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f test/CMakeFiles/rpc_server.dir/build.make test/CMakeFiles/rpc_server.dir/rpc/server.cpp.s
+.PHONY : rpc/server.cpp.s
 
 test_echo.o: test_echo.cpp.o
 
@@ -188,7 +272,7 @@ test_echo.o: test_echo.cpp.o
 
 # target to build an object file
 test_echo.cpp.o:
-	cd /home/zaf/MyProject/MyTinyMuduo/src/net && $(MAKE) -f test/CMakeFiles/test_echo.dir/build.make test/CMakeFiles/test_echo.dir/test_echo.cpp.o
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f test/CMakeFiles/test_echo.dir/build.make test/CMakeFiles/test_echo.dir/test_echo.cpp.o
 .PHONY : test_echo.cpp.o
 
 test_echo.i: test_echo.cpp.i
@@ -197,7 +281,7 @@ test_echo.i: test_echo.cpp.i
 
 # target to preprocess a source file
 test_echo.cpp.i:
-	cd /home/zaf/MyProject/MyTinyMuduo/src/net && $(MAKE) -f test/CMakeFiles/test_echo.dir/build.make test/CMakeFiles/test_echo.dir/test_echo.cpp.i
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f test/CMakeFiles/test_echo.dir/build.make test/CMakeFiles/test_echo.dir/test_echo.cpp.i
 .PHONY : test_echo.cpp.i
 
 test_echo.s: test_echo.cpp.s
@@ -206,7 +290,7 @@ test_echo.s: test_echo.cpp.s
 
 # target to generate assembly for a file
 test_echo.cpp.s:
-	cd /home/zaf/MyProject/MyTinyMuduo/src/net && $(MAKE) -f test/CMakeFiles/test_echo.dir/build.make test/CMakeFiles/test_echo.dir/test_echo.cpp.s
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f test/CMakeFiles/test_echo.dir/build.make test/CMakeFiles/test_echo.dir/test_echo.cpp.s
 .PHONY : test_echo.cpp.s
 
 test_echo_main.o: test_echo_main.cpp.o
@@ -215,7 +299,7 @@ test_echo_main.o: test_echo_main.cpp.o
 
 # target to build an object file
 test_echo_main.cpp.o:
-	cd /home/zaf/MyProject/MyTinyMuduo/src/net && $(MAKE) -f test/CMakeFiles/test_echo_main.dir/build.make test/CMakeFiles/test_echo_main.dir/test_echo_main.cpp.o
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f test/CMakeFiles/test_echo_main.dir/build.make test/CMakeFiles/test_echo_main.dir/test_echo_main.cpp.o
 .PHONY : test_echo_main.cpp.o
 
 test_echo_main.i: test_echo_main.cpp.i
@@ -224,7 +308,7 @@ test_echo_main.i: test_echo_main.cpp.i
 
 # target to preprocess a source file
 test_echo_main.cpp.i:
-	cd /home/zaf/MyProject/MyTinyMuduo/src/net && $(MAKE) -f test/CMakeFiles/test_echo_main.dir/build.make test/CMakeFiles/test_echo_main.dir/test_echo_main.cpp.i
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f test/CMakeFiles/test_echo_main.dir/build.make test/CMakeFiles/test_echo_main.dir/test_echo_main.cpp.i
 .PHONY : test_echo_main.cpp.i
 
 test_echo_main.s: test_echo_main.cpp.s
@@ -233,7 +317,7 @@ test_echo_main.s: test_echo_main.cpp.s
 
 # target to generate assembly for a file
 test_echo_main.cpp.s:
-	cd /home/zaf/MyProject/MyTinyMuduo/src/net && $(MAKE) -f test/CMakeFiles/test_echo_main.dir/build.make test/CMakeFiles/test_echo_main.dir/test_echo_main.cpp.s
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(MAKE) -f test/CMakeFiles/test_echo_main.dir/build.make test/CMakeFiles/test_echo_main.dir/test_echo_main.cpp.s
 .PHONY : test_echo_main.cpp.s
 
 # Help Target
@@ -242,14 +326,22 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... test_echo_main"
-	@echo "... edit_cache"
-	@echo "... Test_EventLoop"
 	@echo "... rebuild_cache"
 	@echo "... test_echo"
+	@echo "... rpc_client"
+	@echo "... rpc_server"
+	@echo "... Test_EventLoop"
+	@echo "... edit_cache"
+	@echo "... test_echo_main"
 	@echo "... Test_EventLoop.o"
 	@echo "... Test_EventLoop.i"
 	@echo "... Test_EventLoop.s"
+	@echo "... rpc/client.o"
+	@echo "... rpc/client.i"
+	@echo "... rpc/client.s"
+	@echo "... rpc/server.o"
+	@echo "... rpc/server.i"
+	@echo "... rpc/server.s"
 	@echo "... test_echo.o"
 	@echo "... test_echo.i"
 	@echo "... test_echo.s"
@@ -267,6 +359,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/zaf/MyProject/MyTinyMuduo/src/net && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/zaf/MyProject/MyMuduo/src/net && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

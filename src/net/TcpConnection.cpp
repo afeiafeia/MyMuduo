@@ -43,7 +43,7 @@ namespace afa
     void TcpConnection::ReadHandle()
     {
         int read_bytes = m_read_buff.ReadableBytes();
-        LOG_DEBUG(logger)<<"readed bytes is: "<<read_bytes;
+        LOG_DEBUG(logger)<<"readable bytes is: "<<read_bytes;
         LOG_DEBUG(logger)<<"reading...";
         m_loop->assertInLoopThread();
         if(!m_sp_channel->IsETTrigger())
@@ -54,7 +54,7 @@ namespace afa
            int n = m_read_buff.ReadFd(m_sp_channel->Getfd(),&err);
            if(n==0)
            {
-              LOG_DEBUG(logger)<<"close fd: "<<m_sp_channel->Getfd();
+              LOG_ERROR(logger)<<"close fd: "<<m_sp_channel->Getfd();
               CloseHandle();
               return;
            }
@@ -62,7 +62,7 @@ namespace afa
            {
                if(err!=EAGAIN&&err!=EWOULDBLOCK)
                {
-                    LOG_DEBUG(logger)<<"Error In Read fd = "<<m_sp_channel->Getfd();
+                    LOG_ERROR(logger)<<"Error In Read fd = "<<m_sp_channel->Getfd();
                     ErrorHandle();
                }
 
@@ -98,7 +98,7 @@ namespace afa
             }
         }
         read_bytes = m_read_buff.ReadableBytes();
-        LOG_DEBUG(logger)<<"readed bytes is: "<<read_bytes;
+        LOG_DEBUG(logger)<<"readable bytes is: "<<read_bytes;
         std::string data = m_read_buff.ToString();
         m_message_callBack(shared_from_this(),m_read_buff);
         LOG_DEBUG(logger)<<"readed data is: "<<data;
@@ -111,10 +111,14 @@ namespace afa
     {
         m_loop->assertInLoopThread();
         int remain = m_write_buff.ReadableBytes();
+        LOG_DEBUG(logger)<<"writable bytes is: "<<remain;
+        LOG_DEBUG(logger)<<"writing...";
         if(!m_sp_channel->IsETTrigger())
         {
+            LOG_DEBUG(logger)<<"LT Model";
            int err;
            int nwrite = m_write_buff.WriteFd(m_sp_channel->Getfd(),&err);
+           LOG_DEBUG(logger)<<"Writed byytes is "<<nwrite;
            if(nwrite<0)
            {
                if(err!=EAGAIN&&err!=EWOULDBLOCK)
@@ -179,9 +183,11 @@ namespace afa
 
     void TcpConnection::Send(Buffer &buf)
     {
+        LOG_INFO(logger)<<"push to write_buff!";
         m_write_buff.Swap(buf);
         if(!m_sp_channel->IsWriting())
         {
+            LOG_INFO(logger)<<"starting to listen writing event!";
             m_sp_channel->EnableWriting();
         }
     }

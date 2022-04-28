@@ -11,3 +11,9 @@ target_link_libraries(test_echo my_tiny_muduo_net)
 
 add_executable(test_echo_main test_echo_main.cpp)
 target_link_libraries(test_echo_main my_tiny_muduo_net)
+
+add_executable(rpc_client ./rpc/client.cpp)
+target_link_libraries(rpc_client my_tiny_muduo_net)
+
+add_executable(rpc_server ./rpc/server.cpp)
+target_link_libraries(rpc_server my_tiny_muduo_net)

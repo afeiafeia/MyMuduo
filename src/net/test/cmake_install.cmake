@@ -1,4 +1,4 @@
-# Install script for directory: /home/zaf/MyProject/MyTinyMuduo/src/net/test
+# Install script for directory: /home/zaf/MyProject/MyMuduo/src/net/test
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

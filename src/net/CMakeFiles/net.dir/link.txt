@@ -1,2 +1,0 @@
-/usr/bin/ar qc libnet.a  CMakeFiles/net.dir/EventLoop.cpp.o CMakeFiles/net.dir/EventLoopThread.cpp.o CMakeFiles/net.dir/EventLoopThreadPool.cpp.o CMakeFiles/net.dir/Channel.cpp.o CMakeFiles/net.dir/EpollPoller.cpp.o CMakeFiles/net.dir/Acceptor.cpp.o CMakeFiles/net.dir/TcpServer.cpp.o CMakeFiles/net.dir/TcpConnection.cpp.o
-/usr/bin/ranlib libnet.a

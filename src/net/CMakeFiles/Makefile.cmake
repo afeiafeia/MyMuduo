@@ -45,7 +45,9 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/my_tiny_muduo_net.dir/DependInfo.cmake"
-  "test/CMakeFiles/test_echo_main.dir/DependInfo.cmake"
-  "test/CMakeFiles/Test_EventLoop.dir/DependInfo.cmake"
   "test/CMakeFiles/test_echo.dir/DependInfo.cmake"
+  "test/CMakeFiles/rpc_client.dir/DependInfo.cmake"
+  "test/CMakeFiles/rpc_server.dir/DependInfo.cmake"
+  "test/CMakeFiles/Test_EventLoop.dir/DependInfo.cmake"
+  "test/CMakeFiles/test_echo_main.dir/DependInfo.cmake"
   )

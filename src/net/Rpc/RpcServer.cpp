@@ -20,6 +20,7 @@ namespace afa
 
     void RpcServer::Start()
     {
+        LOG_DEBUG(logger)<<"RpcServer is starting";
         m_server.Start();
     }
     void RpcServer::RegisterService(google::protobuf::Service* service)

@@ -1,1 +1,1 @@
-/usr/bin/c++   -O0 -Wall -g -ggdb   CMakeFiles/test_echo.dir/test_echo.cpp.o  -o test_echo  -L/home/zaf/MyProject/MyTinyMuduo/src/net/test/.. -Wl,-rpath,/home/zaf/MyProject/MyTinyMuduo/src/net/test/.. ../libmy_tiny_muduo_net.a -lpthread -lprotobuf -lrt 
+/usr/bin/c++   -O0 -Wall -g -ggdb   CMakeFiles/test_echo.dir/test_echo.cpp.o  -o test_echo  -L/home/zaf/MyProject/MyMuduo/src/net/test/.. -Wl,-rpath,/home/zaf/MyProject/MyMuduo/src/net/test/.. ../libmy_tiny_muduo_net.a -lpthread -lprotobuf -lrt 

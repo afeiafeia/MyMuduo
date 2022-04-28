@@ -1,1 +1,0 @@
-/usr/bin/c++   -O0 -Wall -g -ggdb     -o Test_EventLoop.cpp ../libnet.a -lbase 

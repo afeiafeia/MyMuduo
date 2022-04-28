@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/zaf/MyProject/MyTinyMuduo/src/net
+CMAKE_SOURCE_DIR = /home/zaf/MyProject/MyMuduo/src/net
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/zaf/MyProject/MyTinyMuduo/src/net
+CMAKE_BINARY_DIR = /home/zaf/MyProject/MyMuduo/src/net
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/zaf/MyProject/MyTinyMuduo/src/net/CMakeFiles /home/zaf/MyProject/MyTinyMuduo/src/net/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/zaf/MyProject/MyMuduo/src/net/CMakeFiles /home/zaf/MyProject/MyMuduo/src/net/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/zaf/MyProject/MyTinyMuduo/src/net/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/zaf/MyProject/MyMuduo/src/net/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -124,17 +124,43 @@ my_tiny_muduo_net/fast:
 .PHONY : my_tiny_muduo_net/fast
 
 #=============================================================================
-# Target rules for targets named test_echo_main
+# Target rules for targets named test_echo
 
 # Build rule for target.
-test_echo_main: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 test_echo_main
-.PHONY : test_echo_main
+test_echo: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test_echo
+.PHONY : test_echo
 
 # fast build rule for target.
-test_echo_main/fast:
-	$(MAKE) -f test/CMakeFiles/test_echo_main.dir/build.make test/CMakeFiles/test_echo_main.dir/build
-.PHONY : test_echo_main/fast
+test_echo/fast:
+	$(MAKE) -f test/CMakeFiles/test_echo.dir/build.make test/CMakeFiles/test_echo.dir/build
+.PHONY : test_echo/fast
+
+#=============================================================================
+# Target rules for targets named rpc_client
+
+# Build rule for target.
+rpc_client: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 rpc_client
+.PHONY : rpc_client
+
+# fast build rule for target.
+rpc_client/fast:
+	$(MAKE) -f test/CMakeFiles/rpc_client.dir/build.make test/CMakeFiles/rpc_client.dir/build
+.PHONY : rpc_client/fast
+
+#=============================================================================
+# Target rules for targets named rpc_server
+
+# Build rule for target.
+rpc_server: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 rpc_server
+.PHONY : rpc_server
+
+# fast build rule for target.
+rpc_server/fast:
+	$(MAKE) -f test/CMakeFiles/rpc_server.dir/build.make test/CMakeFiles/rpc_server.dir/build
+.PHONY : rpc_server/fast
 
 #=============================================================================
 # Target rules for targets named Test_EventLoop
@@ -150,17 +176,17 @@ Test_EventLoop/fast:
 .PHONY : Test_EventLoop/fast
 
 #=============================================================================
-# Target rules for targets named test_echo
+# Target rules for targets named test_echo_main
 
 # Build rule for target.
-test_echo: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 test_echo
-.PHONY : test_echo
+test_echo_main: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test_echo_main
+.PHONY : test_echo_main
 
 # fast build rule for target.
-test_echo/fast:
-	$(MAKE) -f test/CMakeFiles/test_echo.dir/build.make test/CMakeFiles/test_echo.dir/build
-.PHONY : test_echo/fast
+test_echo_main/fast:
+	$(MAKE) -f test/CMakeFiles/test_echo_main.dir/build.make test/CMakeFiles/test_echo_main.dir/build
+.PHONY : test_echo_main/fast
 
 Acceptor.o: Acceptor.cpp.o
 
@@ -540,248 +566,248 @@ TcpServer.cpp.s:
 	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/TcpServer.cpp.s
 .PHONY : TcpServer.cpp.s
 
-home/zaf/MyProject/MyTinyMuduo/src/base/LogEvent.o: home/zaf/MyProject/MyTinyMuduo/src/base/LogEvent.cpp.o
+home/zaf/MyProject/MyMuduo/src/base/LogEvent.o: home/zaf/MyProject/MyMuduo/src/base/LogEvent.cpp.o
 
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogEvent.o
-
-# target to build an object file
-home/zaf/MyProject/MyTinyMuduo/src/base/LogEvent.cpp.o:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/LogEvent.cpp.o
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogEvent.cpp.o
-
-home/zaf/MyProject/MyTinyMuduo/src/base/LogEvent.i: home/zaf/MyProject/MyTinyMuduo/src/base/LogEvent.cpp.i
-
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogEvent.i
-
-# target to preprocess a source file
-home/zaf/MyProject/MyTinyMuduo/src/base/LogEvent.cpp.i:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/LogEvent.cpp.i
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogEvent.cpp.i
-
-home/zaf/MyProject/MyTinyMuduo/src/base/LogEvent.s: home/zaf/MyProject/MyTinyMuduo/src/base/LogEvent.cpp.s
-
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogEvent.s
-
-# target to generate assembly for a file
-home/zaf/MyProject/MyTinyMuduo/src/base/LogEvent.cpp.s:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/LogEvent.cpp.s
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogEvent.cpp.s
-
-home/zaf/MyProject/MyTinyMuduo/src/base/LogEventWarp.o: home/zaf/MyProject/MyTinyMuduo/src/base/LogEventWarp.cpp.o
-
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogEventWarp.o
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogEvent.o
 
 # target to build an object file
-home/zaf/MyProject/MyTinyMuduo/src/base/LogEventWarp.cpp.o:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/LogEventWarp.cpp.o
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogEventWarp.cpp.o
+home/zaf/MyProject/MyMuduo/src/base/LogEvent.cpp.o:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/LogEvent.cpp.o
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogEvent.cpp.o
 
-home/zaf/MyProject/MyTinyMuduo/src/base/LogEventWarp.i: home/zaf/MyProject/MyTinyMuduo/src/base/LogEventWarp.cpp.i
+home/zaf/MyProject/MyMuduo/src/base/LogEvent.i: home/zaf/MyProject/MyMuduo/src/base/LogEvent.cpp.i
 
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogEventWarp.i
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogEvent.i
 
 # target to preprocess a source file
-home/zaf/MyProject/MyTinyMuduo/src/base/LogEventWarp.cpp.i:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/LogEventWarp.cpp.i
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogEventWarp.cpp.i
+home/zaf/MyProject/MyMuduo/src/base/LogEvent.cpp.i:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/LogEvent.cpp.i
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogEvent.cpp.i
 
-home/zaf/MyProject/MyTinyMuduo/src/base/LogEventWarp.s: home/zaf/MyProject/MyTinyMuduo/src/base/LogEventWarp.cpp.s
+home/zaf/MyProject/MyMuduo/src/base/LogEvent.s: home/zaf/MyProject/MyMuduo/src/base/LogEvent.cpp.s
 
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogEventWarp.s
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogEvent.s
 
 # target to generate assembly for a file
-home/zaf/MyProject/MyTinyMuduo/src/base/LogEventWarp.cpp.s:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/LogEventWarp.cpp.s
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogEventWarp.cpp.s
+home/zaf/MyProject/MyMuduo/src/base/LogEvent.cpp.s:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/LogEvent.cpp.s
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogEvent.cpp.s
 
-home/zaf/MyProject/MyTinyMuduo/src/base/LogFileAppender.o: home/zaf/MyProject/MyTinyMuduo/src/base/LogFileAppender.cpp.o
+home/zaf/MyProject/MyMuduo/src/base/LogEventWarp.o: home/zaf/MyProject/MyMuduo/src/base/LogEventWarp.cpp.o
 
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogFileAppender.o
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogEventWarp.o
 
 # target to build an object file
-home/zaf/MyProject/MyTinyMuduo/src/base/LogFileAppender.cpp.o:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/LogFileAppender.cpp.o
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogFileAppender.cpp.o
+home/zaf/MyProject/MyMuduo/src/base/LogEventWarp.cpp.o:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/LogEventWarp.cpp.o
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogEventWarp.cpp.o
 
-home/zaf/MyProject/MyTinyMuduo/src/base/LogFileAppender.i: home/zaf/MyProject/MyTinyMuduo/src/base/LogFileAppender.cpp.i
+home/zaf/MyProject/MyMuduo/src/base/LogEventWarp.i: home/zaf/MyProject/MyMuduo/src/base/LogEventWarp.cpp.i
 
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogFileAppender.i
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogEventWarp.i
 
 # target to preprocess a source file
-home/zaf/MyProject/MyTinyMuduo/src/base/LogFileAppender.cpp.i:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/LogFileAppender.cpp.i
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogFileAppender.cpp.i
+home/zaf/MyProject/MyMuduo/src/base/LogEventWarp.cpp.i:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/LogEventWarp.cpp.i
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogEventWarp.cpp.i
 
-home/zaf/MyProject/MyTinyMuduo/src/base/LogFileAppender.s: home/zaf/MyProject/MyTinyMuduo/src/base/LogFileAppender.cpp.s
+home/zaf/MyProject/MyMuduo/src/base/LogEventWarp.s: home/zaf/MyProject/MyMuduo/src/base/LogEventWarp.cpp.s
 
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogFileAppender.s
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogEventWarp.s
 
 # target to generate assembly for a file
-home/zaf/MyProject/MyTinyMuduo/src/base/LogFileAppender.cpp.s:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/LogFileAppender.cpp.s
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogFileAppender.cpp.s
+home/zaf/MyProject/MyMuduo/src/base/LogEventWarp.cpp.s:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/LogEventWarp.cpp.s
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogEventWarp.cpp.s
 
-home/zaf/MyProject/MyTinyMuduo/src/base/LogFormatter.o: home/zaf/MyProject/MyTinyMuduo/src/base/LogFormatter.cpp.o
+home/zaf/MyProject/MyMuduo/src/base/LogFileAppender.o: home/zaf/MyProject/MyMuduo/src/base/LogFileAppender.cpp.o
 
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogFormatter.o
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogFileAppender.o
 
 # target to build an object file
-home/zaf/MyProject/MyTinyMuduo/src/base/LogFormatter.cpp.o:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/LogFormatter.cpp.o
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogFormatter.cpp.o
+home/zaf/MyProject/MyMuduo/src/base/LogFileAppender.cpp.o:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/LogFileAppender.cpp.o
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogFileAppender.cpp.o
 
-home/zaf/MyProject/MyTinyMuduo/src/base/LogFormatter.i: home/zaf/MyProject/MyTinyMuduo/src/base/LogFormatter.cpp.i
+home/zaf/MyProject/MyMuduo/src/base/LogFileAppender.i: home/zaf/MyProject/MyMuduo/src/base/LogFileAppender.cpp.i
 
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogFormatter.i
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogFileAppender.i
 
 # target to preprocess a source file
-home/zaf/MyProject/MyTinyMuduo/src/base/LogFormatter.cpp.i:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/LogFormatter.cpp.i
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogFormatter.cpp.i
+home/zaf/MyProject/MyMuduo/src/base/LogFileAppender.cpp.i:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/LogFileAppender.cpp.i
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogFileAppender.cpp.i
 
-home/zaf/MyProject/MyTinyMuduo/src/base/LogFormatter.s: home/zaf/MyProject/MyTinyMuduo/src/base/LogFormatter.cpp.s
+home/zaf/MyProject/MyMuduo/src/base/LogFileAppender.s: home/zaf/MyProject/MyMuduo/src/base/LogFileAppender.cpp.s
 
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogFormatter.s
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogFileAppender.s
 
 # target to generate assembly for a file
-home/zaf/MyProject/MyTinyMuduo/src/base/LogFormatter.cpp.s:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/LogFormatter.cpp.s
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogFormatter.cpp.s
+home/zaf/MyProject/MyMuduo/src/base/LogFileAppender.cpp.s:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/LogFileAppender.cpp.s
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogFileAppender.cpp.s
 
-home/zaf/MyProject/MyTinyMuduo/src/base/LogLevel.o: home/zaf/MyProject/MyTinyMuduo/src/base/LogLevel.cpp.o
+home/zaf/MyProject/MyMuduo/src/base/LogFormatter.o: home/zaf/MyProject/MyMuduo/src/base/LogFormatter.cpp.o
 
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogLevel.o
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogFormatter.o
 
 # target to build an object file
-home/zaf/MyProject/MyTinyMuduo/src/base/LogLevel.cpp.o:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/LogLevel.cpp.o
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogLevel.cpp.o
+home/zaf/MyProject/MyMuduo/src/base/LogFormatter.cpp.o:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/LogFormatter.cpp.o
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogFormatter.cpp.o
 
-home/zaf/MyProject/MyTinyMuduo/src/base/LogLevel.i: home/zaf/MyProject/MyTinyMuduo/src/base/LogLevel.cpp.i
+home/zaf/MyProject/MyMuduo/src/base/LogFormatter.i: home/zaf/MyProject/MyMuduo/src/base/LogFormatter.cpp.i
 
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogLevel.i
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogFormatter.i
 
 # target to preprocess a source file
-home/zaf/MyProject/MyTinyMuduo/src/base/LogLevel.cpp.i:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/LogLevel.cpp.i
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogLevel.cpp.i
+home/zaf/MyProject/MyMuduo/src/base/LogFormatter.cpp.i:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/LogFormatter.cpp.i
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogFormatter.cpp.i
 
-home/zaf/MyProject/MyTinyMuduo/src/base/LogLevel.s: home/zaf/MyProject/MyTinyMuduo/src/base/LogLevel.cpp.s
+home/zaf/MyProject/MyMuduo/src/base/LogFormatter.s: home/zaf/MyProject/MyMuduo/src/base/LogFormatter.cpp.s
 
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogLevel.s
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogFormatter.s
 
 # target to generate assembly for a file
-home/zaf/MyProject/MyTinyMuduo/src/base/LogLevel.cpp.s:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/LogLevel.cpp.s
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/LogLevel.cpp.s
+home/zaf/MyProject/MyMuduo/src/base/LogFormatter.cpp.s:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/LogFormatter.cpp.s
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogFormatter.cpp.s
 
-home/zaf/MyProject/MyTinyMuduo/src/base/Logger.o: home/zaf/MyProject/MyTinyMuduo/src/base/Logger.cpp.o
+home/zaf/MyProject/MyMuduo/src/base/LogLevel.o: home/zaf/MyProject/MyMuduo/src/base/LogLevel.cpp.o
 
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/Logger.o
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogLevel.o
 
 # target to build an object file
-home/zaf/MyProject/MyTinyMuduo/src/base/Logger.cpp.o:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/Logger.cpp.o
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/Logger.cpp.o
+home/zaf/MyProject/MyMuduo/src/base/LogLevel.cpp.o:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/LogLevel.cpp.o
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogLevel.cpp.o
 
-home/zaf/MyProject/MyTinyMuduo/src/base/Logger.i: home/zaf/MyProject/MyTinyMuduo/src/base/Logger.cpp.i
+home/zaf/MyProject/MyMuduo/src/base/LogLevel.i: home/zaf/MyProject/MyMuduo/src/base/LogLevel.cpp.i
 
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/Logger.i
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogLevel.i
 
 # target to preprocess a source file
-home/zaf/MyProject/MyTinyMuduo/src/base/Logger.cpp.i:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/Logger.cpp.i
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/Logger.cpp.i
+home/zaf/MyProject/MyMuduo/src/base/LogLevel.cpp.i:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/LogLevel.cpp.i
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogLevel.cpp.i
 
-home/zaf/MyProject/MyTinyMuduo/src/base/Logger.s: home/zaf/MyProject/MyTinyMuduo/src/base/Logger.cpp.s
+home/zaf/MyProject/MyMuduo/src/base/LogLevel.s: home/zaf/MyProject/MyMuduo/src/base/LogLevel.cpp.s
 
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/Logger.s
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogLevel.s
 
 # target to generate assembly for a file
-home/zaf/MyProject/MyTinyMuduo/src/base/Logger.cpp.s:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/Logger.cpp.s
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/Logger.cpp.s
+home/zaf/MyProject/MyMuduo/src/base/LogLevel.cpp.s:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/LogLevel.cpp.s
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/LogLevel.cpp.s
 
-home/zaf/MyProject/MyTinyMuduo/src/base/MutexLock.o: home/zaf/MyProject/MyTinyMuduo/src/base/MutexLock.cpp.o
+home/zaf/MyProject/MyMuduo/src/base/Logger.o: home/zaf/MyProject/MyMuduo/src/base/Logger.cpp.o
 
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/MutexLock.o
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/Logger.o
 
 # target to build an object file
-home/zaf/MyProject/MyTinyMuduo/src/base/MutexLock.cpp.o:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/MutexLock.cpp.o
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/MutexLock.cpp.o
+home/zaf/MyProject/MyMuduo/src/base/Logger.cpp.o:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/Logger.cpp.o
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/Logger.cpp.o
 
-home/zaf/MyProject/MyTinyMuduo/src/base/MutexLock.i: home/zaf/MyProject/MyTinyMuduo/src/base/MutexLock.cpp.i
+home/zaf/MyProject/MyMuduo/src/base/Logger.i: home/zaf/MyProject/MyMuduo/src/base/Logger.cpp.i
 
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/MutexLock.i
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/Logger.i
 
 # target to preprocess a source file
-home/zaf/MyProject/MyTinyMuduo/src/base/MutexLock.cpp.i:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/MutexLock.cpp.i
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/MutexLock.cpp.i
+home/zaf/MyProject/MyMuduo/src/base/Logger.cpp.i:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/Logger.cpp.i
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/Logger.cpp.i
 
-home/zaf/MyProject/MyTinyMuduo/src/base/MutexLock.s: home/zaf/MyProject/MyTinyMuduo/src/base/MutexLock.cpp.s
+home/zaf/MyProject/MyMuduo/src/base/Logger.s: home/zaf/MyProject/MyMuduo/src/base/Logger.cpp.s
 
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/MutexLock.s
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/Logger.s
 
 # target to generate assembly for a file
-home/zaf/MyProject/MyTinyMuduo/src/base/MutexLock.cpp.s:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/MutexLock.cpp.s
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/MutexLock.cpp.s
+home/zaf/MyProject/MyMuduo/src/base/Logger.cpp.s:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/Logger.cpp.s
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/Logger.cpp.s
 
-home/zaf/MyProject/MyTinyMuduo/src/base/Semaphore.o: home/zaf/MyProject/MyTinyMuduo/src/base/Semaphore.cpp.o
+home/zaf/MyProject/MyMuduo/src/base/MutexLock.o: home/zaf/MyProject/MyMuduo/src/base/MutexLock.cpp.o
 
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/Semaphore.o
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/MutexLock.o
 
 # target to build an object file
-home/zaf/MyProject/MyTinyMuduo/src/base/Semaphore.cpp.o:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/Semaphore.cpp.o
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/Semaphore.cpp.o
+home/zaf/MyProject/MyMuduo/src/base/MutexLock.cpp.o:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/MutexLock.cpp.o
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/MutexLock.cpp.o
 
-home/zaf/MyProject/MyTinyMuduo/src/base/Semaphore.i: home/zaf/MyProject/MyTinyMuduo/src/base/Semaphore.cpp.i
+home/zaf/MyProject/MyMuduo/src/base/MutexLock.i: home/zaf/MyProject/MyMuduo/src/base/MutexLock.cpp.i
 
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/Semaphore.i
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/MutexLock.i
 
 # target to preprocess a source file
-home/zaf/MyProject/MyTinyMuduo/src/base/Semaphore.cpp.i:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/Semaphore.cpp.i
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/Semaphore.cpp.i
+home/zaf/MyProject/MyMuduo/src/base/MutexLock.cpp.i:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/MutexLock.cpp.i
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/MutexLock.cpp.i
 
-home/zaf/MyProject/MyTinyMuduo/src/base/Semaphore.s: home/zaf/MyProject/MyTinyMuduo/src/base/Semaphore.cpp.s
+home/zaf/MyProject/MyMuduo/src/base/MutexLock.s: home/zaf/MyProject/MyMuduo/src/base/MutexLock.cpp.s
 
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/Semaphore.s
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/MutexLock.s
 
 # target to generate assembly for a file
-home/zaf/MyProject/MyTinyMuduo/src/base/Semaphore.cpp.s:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/Semaphore.cpp.s
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/Semaphore.cpp.s
+home/zaf/MyProject/MyMuduo/src/base/MutexLock.cpp.s:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/MutexLock.cpp.s
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/MutexLock.cpp.s
 
-home/zaf/MyProject/MyTinyMuduo/src/base/Thread.o: home/zaf/MyProject/MyTinyMuduo/src/base/Thread.cpp.o
+home/zaf/MyProject/MyMuduo/src/base/Semaphore.o: home/zaf/MyProject/MyMuduo/src/base/Semaphore.cpp.o
 
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/Thread.o
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/Semaphore.o
 
 # target to build an object file
-home/zaf/MyProject/MyTinyMuduo/src/base/Thread.cpp.o:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/Thread.cpp.o
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/Thread.cpp.o
+home/zaf/MyProject/MyMuduo/src/base/Semaphore.cpp.o:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/Semaphore.cpp.o
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/Semaphore.cpp.o
 
-home/zaf/MyProject/MyTinyMuduo/src/base/Thread.i: home/zaf/MyProject/MyTinyMuduo/src/base/Thread.cpp.i
+home/zaf/MyProject/MyMuduo/src/base/Semaphore.i: home/zaf/MyProject/MyMuduo/src/base/Semaphore.cpp.i
 
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/Thread.i
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/Semaphore.i
 
 # target to preprocess a source file
-home/zaf/MyProject/MyTinyMuduo/src/base/Thread.cpp.i:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/Thread.cpp.i
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/Thread.cpp.i
+home/zaf/MyProject/MyMuduo/src/base/Semaphore.cpp.i:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/Semaphore.cpp.i
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/Semaphore.cpp.i
 
-home/zaf/MyProject/MyTinyMuduo/src/base/Thread.s: home/zaf/MyProject/MyTinyMuduo/src/base/Thread.cpp.s
+home/zaf/MyProject/MyMuduo/src/base/Semaphore.s: home/zaf/MyProject/MyMuduo/src/base/Semaphore.cpp.s
 
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/Thread.s
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/Semaphore.s
 
 # target to generate assembly for a file
-home/zaf/MyProject/MyTinyMuduo/src/base/Thread.cpp.s:
-	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyTinyMuduo/src/base/Thread.cpp.s
-.PHONY : home/zaf/MyProject/MyTinyMuduo/src/base/Thread.cpp.s
+home/zaf/MyProject/MyMuduo/src/base/Semaphore.cpp.s:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/Semaphore.cpp.s
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/Semaphore.cpp.s
+
+home/zaf/MyProject/MyMuduo/src/base/Thread.o: home/zaf/MyProject/MyMuduo/src/base/Thread.cpp.o
+
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/Thread.o
+
+# target to build an object file
+home/zaf/MyProject/MyMuduo/src/base/Thread.cpp.o:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/Thread.cpp.o
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/Thread.cpp.o
+
+home/zaf/MyProject/MyMuduo/src/base/Thread.i: home/zaf/MyProject/MyMuduo/src/base/Thread.cpp.i
+
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/Thread.i
+
+# target to preprocess a source file
+home/zaf/MyProject/MyMuduo/src/base/Thread.cpp.i:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/Thread.cpp.i
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/Thread.cpp.i
+
+home/zaf/MyProject/MyMuduo/src/base/Thread.s: home/zaf/MyProject/MyMuduo/src/base/Thread.cpp.s
+
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/Thread.s
+
+# target to generate assembly for a file
+home/zaf/MyProject/MyMuduo/src/base/Thread.cpp.s:
+	$(MAKE) -f CMakeFiles/my_tiny_muduo_net.dir/build.make CMakeFiles/my_tiny_muduo_net.dir/home/zaf/MyProject/MyMuduo/src/base/Thread.cpp.s
+.PHONY : home/zaf/MyProject/MyMuduo/src/base/Thread.cpp.s
 
 protobuf/CodeC.o: protobuf/CodeC.cpp.o
 
@@ -819,9 +845,11 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... my_tiny_muduo_net"
 	@echo "... edit_cache"
-	@echo "... test_echo_main"
-	@echo "... Test_EventLoop"
 	@echo "... test_echo"
+	@echo "... rpc_client"
+	@echo "... rpc_server"
+	@echo "... Test_EventLoop"
+	@echo "... test_echo_main"
 	@echo "... Acceptor.o"
 	@echo "... Acceptor.i"
 	@echo "... Acceptor.s"
@@ -864,33 +892,33 @@ help:
 	@echo "... TcpServer.o"
 	@echo "... TcpServer.i"
 	@echo "... TcpServer.s"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/LogEvent.o"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/LogEvent.i"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/LogEvent.s"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/LogEventWarp.o"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/LogEventWarp.i"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/LogEventWarp.s"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/LogFileAppender.o"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/LogFileAppender.i"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/LogFileAppender.s"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/LogFormatter.o"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/LogFormatter.i"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/LogFormatter.s"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/LogLevel.o"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/LogLevel.i"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/LogLevel.s"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/Logger.o"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/Logger.i"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/Logger.s"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/MutexLock.o"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/MutexLock.i"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/MutexLock.s"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/Semaphore.o"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/Semaphore.i"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/Semaphore.s"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/Thread.o"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/Thread.i"
-	@echo "... home/zaf/MyProject/MyTinyMuduo/src/base/Thread.s"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/LogEvent.o"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/LogEvent.i"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/LogEvent.s"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/LogEventWarp.o"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/LogEventWarp.i"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/LogEventWarp.s"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/LogFileAppender.o"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/LogFileAppender.i"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/LogFileAppender.s"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/LogFormatter.o"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/LogFormatter.i"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/LogFormatter.s"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/LogLevel.o"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/LogLevel.i"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/LogLevel.s"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/Logger.o"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/Logger.i"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/Logger.s"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/MutexLock.o"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/MutexLock.i"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/MutexLock.s"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/Semaphore.o"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/Semaphore.i"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/Semaphore.s"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/Thread.o"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/Thread.i"
+	@echo "... home/zaf/MyProject/MyMuduo/src/base/Thread.s"
 	@echo "... protobuf/CodeC.o"
 	@echo "... protobuf/CodeC.i"
 	@echo "... protobuf/CodeC.s"

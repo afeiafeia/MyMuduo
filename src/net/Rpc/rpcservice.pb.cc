@@ -52,7 +52,7 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 }  // namespace afa
 static ::_pb::Metadata file_level_metadata_rpcservice_2eproto[2];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_rpcservice_2eproto = nullptr;
-static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_rpcservice_2eproto = nullptr;
+static const ::_pb::ServiceDescriptor* file_level_service_descriptors_rpcservice_2eproto[1];
 
 const uint32_t TableStruct_rpcservice_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   PROTOBUF_FIELD_OFFSET(::afa::ProtoRequest, _impl_._has_bits_),
@@ -87,11 +87,11 @@ const char descriptor_table_protodef_rpcservice_2eproto[] PROTOBUF_SECTION_VARIA
   "\024\n\014message_name\030\001 \002(\t\"%\n\rProtoResponse\022\024"
   "\n\014message_name\030\001 \002(\t2A\n\nRpcService\0223\n\nGe"
   "tService\022\021.afa.ProtoRequest\032\022.afa.ProtoR"
-  "esponse"
+  "esponseB\003\200\001\001"
   ;
 static ::_pbi::once_flag descriptor_table_rpcservice_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_rpcservice_2eproto = {
-    false, false, 167, descriptor_table_protodef_rpcservice_2eproto,
+    false, false, 172, descriptor_table_protodef_rpcservice_2eproto,
     "rpcservice.proto",
     &descriptor_table_rpcservice_2eproto_once, nullptr, 0, 2,
     schemas, file_default_instances, TableStruct_rpcservice_2eproto::offsets,
@@ -554,6 +554,93 @@ void ProtoResponse::InternalSwap(ProtoResponse* other) {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_rpcservice_2eproto_getter, &descriptor_table_rpcservice_2eproto_once,
       file_level_metadata_rpcservice_2eproto[1]);
+}
+
+// ===================================================================
+
+RpcService::~RpcService() {}
+
+const ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor* RpcService::descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_rpcservice_2eproto);
+  return file_level_service_descriptors_rpcservice_2eproto[0];
+}
+
+const ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor* RpcService::GetDescriptor() {
+  return descriptor();
+}
+
+void RpcService::GetService(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                         const ::afa::ProtoRequest*,
+                         ::afa::ProtoResponse*,
+                         ::google::protobuf::Closure* done) {
+  controller->SetFailed("Method GetService() not implemented.");
+  done->Run();
+}
+
+void RpcService::CallMethod(const ::PROTOBUF_NAMESPACE_ID::MethodDescriptor* method,
+                             ::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                             const ::PROTOBUF_NAMESPACE_ID::Message* request,
+                             ::PROTOBUF_NAMESPACE_ID::Message* response,
+                             ::google::protobuf::Closure* done) {
+  GOOGLE_DCHECK_EQ(method->service(), file_level_service_descriptors_rpcservice_2eproto[0]);
+  switch(method->index()) {
+    case 0:
+      GetService(controller,
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::afa::ProtoRequest*>(
+                 request),
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<::afa::ProtoResponse*>(
+                 response),
+             done);
+      break;
+    default:
+      GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
+      break;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message& RpcService::GetRequestPrototype(
+    const ::PROTOBUF_NAMESPACE_ID::MethodDescriptor* method) const {
+  GOOGLE_DCHECK_EQ(method->service(), descriptor());
+  switch(method->index()) {
+    case 0:
+      return ::afa::ProtoRequest::default_instance();
+    default:
+      GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
+      return *::PROTOBUF_NAMESPACE_ID::MessageFactory::generated_factory()
+          ->GetPrototype(method->input_type());
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message& RpcService::GetResponsePrototype(
+    const ::PROTOBUF_NAMESPACE_ID::MethodDescriptor* method) const {
+  GOOGLE_DCHECK_EQ(method->service(), descriptor());
+  switch(method->index()) {
+    case 0:
+      return ::afa::ProtoResponse::default_instance();
+    default:
+      GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
+      return *::PROTOBUF_NAMESPACE_ID::MessageFactory::generated_factory()
+          ->GetPrototype(method->output_type());
+  }
+}
+
+RpcService_Stub::RpcService_Stub(::PROTOBUF_NAMESPACE_ID::RpcChannel* channel)
+  : channel_(channel), owns_channel_(false) {}
+RpcService_Stub::RpcService_Stub(
+    ::PROTOBUF_NAMESPACE_ID::RpcChannel* channel,
+    ::PROTOBUF_NAMESPACE_ID::Service::ChannelOwnership ownership)
+  : channel_(channel),
+    owns_channel_(ownership == ::PROTOBUF_NAMESPACE_ID::Service::STUB_OWNS_CHANNEL) {}
+RpcService_Stub::~RpcService_Stub() {
+  if (owns_channel_) delete channel_;
+}
+
+void RpcService_Stub::GetService(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                              const ::afa::ProtoRequest* request,
+                              ::afa::ProtoResponse* response,
+                              ::google::protobuf::Closure* done) {
+  channel_->CallMethod(descriptor()->method(0),
+                       controller, request, response, done);
 }
 
 // @@protoc_insertion_point(namespace_scope)

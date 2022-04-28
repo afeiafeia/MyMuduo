@@ -6,23 +6,23 @@
 
 #IncludeRegexTransform: 
 
-/home/zaf/MyProject/MyTinyMuduo/src/base/CurrentThread.h
+/home/zaf/MyProject/MyMuduo/src/base/CurrentThread.h
 
-/home/zaf/MyProject/MyTinyMuduo/src/base/MutexLock.h
+/home/zaf/MyProject/MyMuduo/src/base/MutexLock.h
 noncopyable.h
-/home/zaf/MyProject/MyTinyMuduo/src/base/noncopyable.h
+/home/zaf/MyProject/MyMuduo/src/base/noncopyable.h
 pthread.h
 -
 
-/home/zaf/MyProject/MyTinyMuduo/src/base/noncopyable.h
+/home/zaf/MyProject/MyMuduo/src/base/noncopyable.h
 
-/home/zaf/MyProject/MyTinyMuduo/src/net/Buffer.h
+/home/zaf/MyProject/MyMuduo/src/net/Buffer.h
 vector
 -
 string
 -
 
-/home/zaf/MyProject/MyTinyMuduo/src/net/Channel.h
+/home/zaf/MyProject/MyMuduo/src/net/Channel.h
 functional
 -
 sys/epoll.h
@@ -30,19 +30,19 @@ sys/epoll.h
 memory
 -
 
-/home/zaf/MyProject/MyTinyMuduo/src/net/EchoServer.h
+/home/zaf/MyProject/MyMuduo/src/net/EchoServer.h
 TcpServer.h
-/home/zaf/MyProject/MyTinyMuduo/src/net/TcpServer.h
+/home/zaf/MyProject/MyMuduo/src/net/TcpServer.h
 Buffer.h
-/home/zaf/MyProject/MyTinyMuduo/src/net/Buffer.h
+/home/zaf/MyProject/MyMuduo/src/net/Buffer.h
 memory
 -
 
-/home/zaf/MyProject/MyTinyMuduo/src/net/EventLoop.h
+/home/zaf/MyProject/MyMuduo/src/net/EventLoop.h
 ../base/CurrentThread.h
-/home/zaf/MyProject/MyTinyMuduo/src/base/CurrentThread.h
+/home/zaf/MyProject/MyMuduo/src/base/CurrentThread.h
 ../base/MutexLock.h
-/home/zaf/MyProject/MyTinyMuduo/src/base/MutexLock.h
+/home/zaf/MyProject/MyMuduo/src/base/MutexLock.h
 sys/wait.h
 -
 functional
@@ -56,11 +56,11 @@ memory
 atomic
 -
 
-/home/zaf/MyProject/MyTinyMuduo/src/net/TcpServer.h
+/home/zaf/MyProject/MyMuduo/src/net/TcpServer.h
 Buffer.h
-/home/zaf/MyProject/MyTinyMuduo/src/net/Buffer.h
+/home/zaf/MyProject/MyMuduo/src/net/Buffer.h
 Channel.h
-/home/zaf/MyProject/MyTinyMuduo/src/net/Channel.h
+/home/zaf/MyProject/MyMuduo/src/net/Channel.h
 functional
 -
 map
@@ -70,11 +70,11 @@ memory
 sys/socket.h
 -
 
-/home/zaf/MyProject/MyTinyMuduo/src/net/test/test_echo.cpp
+/home/zaf/MyProject/MyMuduo/src/net/test/test_echo.cpp
 iostream
 -
 ../EchoServer.h
-/home/zaf/MyProject/MyTinyMuduo/src/net/EchoServer.h
+/home/zaf/MyProject/MyMuduo/src/net/EchoServer.h
 ../EventLoop.h
-/home/zaf/MyProject/MyTinyMuduo/src/net/EventLoop.h
+/home/zaf/MyProject/MyMuduo/src/net/EventLoop.h
 

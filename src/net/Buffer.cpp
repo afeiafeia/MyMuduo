@@ -5,8 +5,10 @@
 #include <string.h>
 #include <sys/uio.h>
 #include <endian.h>
+#include "../base/Log.h"
 namespace afa
 {
+    static Logger::Ptr logger = LOG_ROOT();
 
     Buffer::Buffer()
     :m_buff(KinitSize+KPrepend)
@@ -54,7 +56,17 @@ namespace afa
         {
             Resize(sizeof(int32_t));
         }
-        memcmp(&m_buff[0]+m_write_index,(void*)&num,sizeof(int32_t));
+        uint32_t cur = num;
+        num = htobe32(cur);
+        LOG_INFO(logger)<<"Buffer::AppendInt32:"<<cur;
+        LOG_INFO(logger)<<"Buffer::AppendInt32:"<<num;
+        memmove((void*)(&m_buff[0]+m_write_index),(void*)&num,sizeof(int32_t));
+        int x = 0;
+        memmove((void*)(&x),(void*)(&m_buff[0]+m_write_index),sizeof(int32_t));
+        LOG_INFO(logger)<<"Buffer::AppendInt32:"<<x;
+        x = be32toh(x);
+        LOG_INFO(logger)<<"Buffer::AppendInt32:"<<x;
+        m_write_index+=sizeof(int32_t);
     }
 
     void Buffer::Append(const char* data,size_t len)
@@ -81,7 +93,8 @@ namespace afa
 
     void Buffer::PrependInt32(int32_t num)
     {
-        assert(sizeof(int32_t)<KPrepend);
+        assert(sizeof(int32_t)<=KPrepend);
+        num = htobe32(num);
         memcpy(&m_buff[0],&num,sizeof(int32_t));
     }
 
@@ -90,6 +103,7 @@ namespace afa
         int32_t res;
         memcpy(&res,&m_buff[0],sizeof(int32_t));
         return be32toh(res);
+        //return res;
     }
 
     int64_t Buffer::GetHeader64()

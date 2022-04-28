@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/zaf/MyProject/MyTinyMuduo/src/net/test/test_echo.cpp" "/home/zaf/MyProject/MyTinyMuduo/src/net/test/CMakeFiles/test_echo.dir/test_echo.cpp.o"
+  "/home/zaf/MyProject/MyMuduo/src/net/test/test_echo.cpp" "/home/zaf/MyProject/MyMuduo/src/net/test/CMakeFiles/test_echo.dir/test_echo.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -14,7 +14,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/zaf/MyProject/MyTinyMuduo/src/net/CMakeFiles/my_tiny_muduo_net.dir/DependInfo.cmake"
+  "/home/zaf/MyProject/MyMuduo/src/net/CMakeFiles/my_tiny_muduo_net.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.
