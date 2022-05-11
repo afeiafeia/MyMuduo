@@ -1,1 +1,0 @@
-/usr/bin/c++   -O0 -Wall -g -ggdb   CMakeFiles/rpc_server.dir/rpc/server.cpp.o  -o rpc_server  -L/home/zaf/MyProject/MyMuduo/src/net/test/.. -Wl,-rpath,/home/zaf/MyProject/MyMuduo/src/net/test/.. ../libmy_tiny_muduo_net.a -lpthread -lprotobuf -lrt 
