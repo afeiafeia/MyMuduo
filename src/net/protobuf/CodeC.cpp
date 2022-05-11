@@ -42,10 +42,10 @@ namespace afa
         std::string content = msg.SerializeAsString();
 
         int32_t len = s_header_len+s_header_len+static_cast<int32_t>(type_name.size())+static_cast<int32_t>(content.size());
-        buff.AppendInt32(len);
         buff.AppendInt32(name_len);
         buff.Append(type_name);
         buff.Append(content);
+        buff.PrependInt32(len);//总长度
         uint32_t test_len;//总长度
         memmove((void*)&test_len,(void*)(buff.Peek()),sizeof(int32_t));
         test_len = be32toh((uint32_t)test_len);

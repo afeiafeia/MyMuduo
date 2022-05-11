@@ -12,6 +12,7 @@ namespace afa
 {
     class EventLoop;
     class Channel;
+    class Timer;
     class TcpConnection:public std::enable_shared_from_this<TcpConnection>
     {
     public:
@@ -25,6 +26,7 @@ namespace afa
             Connecting=0,
             Connected,
             DisConnected,
+            DisConnecting,//正在断开连接，关闭了读端或者写端后，进入该状态
         };
   
         EventLoop*               m_loop;
@@ -32,6 +34,8 @@ namespace afa
         struct sockaddr*         m_addr;
         socklen_t                m_addr_len;
         State                    m_state;
+
+        Timer*                   m_timer;
 
         //char m_read_buff[READ_BUFF_SIZE]; //读缓冲区（套接字可读时，将数据读到此缓冲区）
         //int  m_read_index;                 //读取到的字节数，而不是最后一个字节的下标
@@ -42,7 +46,7 @@ namespace afa
         //std::string m_write_message;
 
         Buffer  m_read_buff;
-        Buffer  m_write_buff;
+        Buffer  m_write_buff;//发送缓冲区中都是完整消息
 
         CloseCallBack m_close_callBack;  //tcpConnection被server持有，该函数用于在server中移除对TcpConnection的持有
         MessageCallback m_message_callBack;//逻辑处理

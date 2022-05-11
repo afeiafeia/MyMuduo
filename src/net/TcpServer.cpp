@@ -68,7 +68,7 @@ namespace afa
         //bind绑定智能指针时，不是将智能指针转换为普通指针，而是会隐式创建一个智能指针与bind绑定在一起，所以，即使此函数结束，spHttpData离开其作用域，所指资源也不会释放
         //但是，该函数在loop中执行完后，资源会释放，这将导致channel的回调出错（回调绑定了spHttpData所指对象的this指针，如果资源释放，this指针将指向非法地址）
         cur_loop->RunInLoop(std::bind(&TcpConnection::ConnectionEstablished,sp_conn));
-
+        
         //保留副本，防止资源提前释放
         m_map_connection[sockfd] = sp_conn;        
     }

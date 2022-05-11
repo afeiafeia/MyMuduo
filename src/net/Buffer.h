@@ -75,7 +75,7 @@ namespace afa
         void Prepend(const char* data,size_t len);
 
         void PrependInt32(int32_t num);
-        
+        void PrependInt64(int64_t num);
         std::string RetrieveAllAsString();
         void Retrieve(size_t len);
 

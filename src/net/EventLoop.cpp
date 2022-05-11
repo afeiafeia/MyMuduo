@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
 #include <vector>
 #include "EpollPoller.h"
 #include "Channel.h"
@@ -12,6 +13,7 @@ static afa::Logger::Ptr logger = LOG_ROOT();
 namespace afa
 {
     __thread EventLoop* t_loopInThisThread = nullptr;
+    __thread char t_thread_name[256]="Default";
     int CreateEventfd()
     {
         int evefd = eventfd(0,EFD_NONBLOCK|EFD_CLOEXEC);
@@ -29,6 +31,7 @@ namespace afa
     ,m_spWakeUpChannel(new Channel(m_wakeId,this))
     ,m_spEpoll(new EpollPoller(this))
     ,m_mutex(MutexLock())
+    ,m_timer_manager(this,3)
     {
         LOG_DEBUG(logger)<<"EventLoop: "<<this<<" is created in thread "<<CurrentThread::tid();
 
@@ -44,6 +47,14 @@ namespace afa
         //m_spWakeUpChannel->DisableAll();
         m_spWakeUpChannel->Remove();
         t_loopInThisThread = nullptr;
+    }
+
+    void EventLoop::SetThreadName(const std::string &new_name)
+    {
+        assertInLoopThread();
+        memset(t_thread_name,0,256);
+        memcpy(t_thread_name,new_name.c_str(),new_name.size());
+        CurrentThread::t_threadName = t_thread_name;
     }
 
     void EventLoop::Loop()
@@ -182,5 +193,22 @@ namespace afa
     EventLoop* EventLoop::GetEventLoopOfCurThread()
     {
         return t_loopInThisThread;
+    }
+
+    void EventLoop::AddTimer(Timer* timer)
+    {
+        assertInLoopThread();
+        m_timer_manager.AddTimer(timer);
+    }
+
+    void EventLoop::UpdateTimer(Timer* timer)
+    {
+        assertInLoopThread();
+        m_timer_manager.UpdateTimer(timer);
+    }
+    void EventLoop::EraseTimer(Timer* timer)
+    {
+        assertInLoopThread();
+        m_timer_manager.EraseTimer(timer);
     }
 }

@@ -2,7 +2,7 @@
 #define EVENTLOOP_H
 #include "../base/CurrentThread.h"
 #include "../base/MutexLock.h"
-
+#include "TimerManager.h"
 #include <sys/wait.h>
 #include <functional>
 #include <vector>
@@ -22,6 +22,8 @@ namespace afa
         EventLoop();
         ~EventLoop();
 
+
+        void SetThreadName(const std::string &new_name);
         /**
          * @brief  事件循环
          * @author afei
@@ -112,6 +114,14 @@ namespace afa
          * @return EventLoop* 
          */
         static EventLoop* GetEventLoopOfCurThread();
+
+
+
+        void AddTimer(Timer* timer);
+
+        void UpdateTimer(Timer* timer);
+
+        void EraseTimer(Timer* timer);
     private:
         volatile std::atomic<bool>            m_quit;              //loop是否停止
         const pid_t                  m_threadId;          //线程id
@@ -121,6 +131,8 @@ namespace afa
         std::vector<Functor>         m_vctPendingFactor;  //待执行函数队列
         std::unique_ptr<EpollPoller> m_spEpoll;           //IO复用
         MutexLock                    m_mutex;             //锁
+
+        TimerManager                 m_timer_manager;
 
     };
 }

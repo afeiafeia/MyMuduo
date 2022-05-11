@@ -3,6 +3,7 @@
 
 #include "Buffer.h"
 #include "Channel.h"
+#include "TimerManager.h"
 #include <functional>
 #include <map>
 #include <memory>
@@ -36,6 +37,7 @@ namespace afa
 
         Channel::TriggerModel                m_listen_model;       //监听套接字的监听模式
         Channel::TriggerModel                m_sock_model;         //连接套接字的监听模式
+
 
     public:
         TcpServer(EventLoop* loop,int32_t port,int threadNum = 5);

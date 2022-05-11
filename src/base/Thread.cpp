@@ -62,7 +62,6 @@ namespace afa
         }
     };
 
-   
 
     void* StartThread(void* data)
     {

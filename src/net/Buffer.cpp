@@ -87,21 +87,28 @@ namespace afa
     void Buffer::Prepend(const char* data,size_t len)
     {
         assert(len<=PrependableBytes());
-        memcpy(&m_buff[0],data,len);
+        int offset = PrependableBytes()-len;
+        memcpy(&m_buff[offset],data,len);
+        m_read_index = offset;
 
     }
 
     void Buffer::PrependInt32(int32_t num)
     {
-        assert(sizeof(int32_t)<=KPrepend);
         num = htobe32(num);
-        memcpy(&m_buff[0],&num,sizeof(int32_t));
+        Prepend((const char*)&num,sizeof(int32_t));
+    }
+
+    void Buffer::PrependInt64(int64_t num)
+    {
+        num = htobe64(num);
+        Prepend((const char*)&num,sizeof(int64_t));
     }
 
     int32_t Buffer::GetHeader32()
     {
         int32_t res;
-        memcpy(&res,&m_buff[0],sizeof(int32_t));
+        memcpy(&res,&m_buff[m_read_index],sizeof(int32_t));
         return be32toh(res);
         //return res;
     }
@@ -109,7 +116,7 @@ namespace afa
     int64_t Buffer::GetHeader64()
     {
         int64_t res;
-        memcmp(&res,&m_buff[0],sizeof(int64_t));
+        memcmp(&res,&m_buff[m_read_index],sizeof(int64_t));
         return be64toh(res);
     }
 

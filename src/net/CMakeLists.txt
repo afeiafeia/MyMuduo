@@ -35,13 +35,16 @@ set(LIB_NET
     TcpConnection.cpp
     EchoServer.cpp
     Buffer.cpp
+    Timer.cpp
+    TimerHeap.cpp
+    TimerManager.cpp
     ${LIB_RPC}
     ${LIB_SRC}
 )
 
 add_library(my_tiny_muduo_net ${LIB_NET})
 target_link_libraries(my_tiny_muduo_net pthread protobuf rt)
-#set_target_properties((my_tiny_muduo_net PROPERTIES OUTPUT_NAME "net")
+#set_target_properties(my_tiny_muduo_net PROPERTIES OUTPUT_NAME "net")
 
 #add_executable(Test_EventLoop Test_EventLoop.cpp)
 #target_link_libraries(Test_EventLoop my_tiny_muduo_net)
