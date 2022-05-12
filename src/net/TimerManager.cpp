@@ -26,12 +26,7 @@ namespace afa
     {
         m_timer_channel->SetReadHandle(std::bind(&TimerManager::HandleRead,this));
         m_timer_channel->EnableReading();
-
-        struct timeval cur;
-        gettimeofday(&cur,NULL);
-        cur.tv_sec +=m_time_slot;
-        cur.tv_usec +=(1000*1000*m_time_slot);
-        ResetTimerFd(cur); 
+        ResetTimerFd(m_time_slot,false); 
     }
     TimerManager::~TimerManager()
     {
@@ -55,14 +50,13 @@ namespace afa
         m_timer_heap.DelTimer();
     }
 
-    void TimerManager::ResetTimerFd(struct timeval cur)
+    void TimerManager::ResetTimerFd(TimeStamp periodic,bool oneshot)
     {
-        struct timeval now;
-        gettimeofday(&now, NULL);
+        periodic = periodic+TimeStamp::Now();
 
         struct timespec ts;
-        ts.tv_sec = now.tv_sec-cur.tv_sec;
-        ts.tv_nsec = (now.tv_usec-cur.tv_usec)*1000;
+        ts.tv_sec = periodic.GetTime()/1000;
+        ts.tv_nsec = periodic.GetTime()%1000;
 
         //new_value中为设置的时间，第二个参数为0表示相对时间，相对当前调用set的时间
         //将每隔new_value.it_value的时间到期一次（m_timerfd可读）
@@ -71,7 +65,10 @@ namespace afa
         memset(&new_value,0,sizeof(new_value));
         memset(&old_value,0,sizeof(old_value));
         new_value.it_value = ts;
-        new_value.it_interval=ts;//周期，每隔ts到期一次，如果该值为0，则定时器是oneshot的，只会在调用set函数后ts时间到期一次
+        if(!oneshot)
+        {
+            new_value.it_interval=ts;//周期，每隔ts到期一次，如果该值为0，则定时器是oneshot的，只会在调用set函数后ts时间到期一次
+        }
         int ret = ::timerfd_settime(m_timerfd, 0, &new_value, &old_value);
         if (ret)
         {

@@ -4,7 +4,6 @@
 namespace afa
 {
     TimerHeap::TimerHeap()
-    :m_lock()
     {
 
     }
@@ -12,7 +11,6 @@ namespace afa
     {
 
     }
-
 
     void TimerHeap::AddTimer(Timer* iAddTimer)
     {
@@ -31,7 +29,7 @@ namespace afa
 
     void TimerHeap::DelTimer()
     {
-        int64_t now = time(NULL);
+        TimeStamp now = TimeStamp::Now();
         
         while(!m_vctTimer.empty()&&m_vctTimer[0]->GetTime()<now)
         {
@@ -75,7 +73,6 @@ namespace afa
 
     void TimerHeap::UpdateTimer(Timer* timer)
     {
-        int64_t expire = timer->GetTime();
         int index = Search(timer);
         if(index<0)
         {

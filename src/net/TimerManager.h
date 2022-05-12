@@ -21,7 +21,7 @@ namespace afa
         //可读时删除过期定时器
         void HandleRead();
 
-        void ResetTimerFd(struct timeval cur);
+        void ResetTimerFd(TimeStamp periodic,bool oneshot=true);
     private:
         EventLoop*               m_loop;
         int                      m_time_slot;//每隔m_time_slot时间触发一次可读事件

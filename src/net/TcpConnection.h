@@ -37,6 +37,8 @@ namespace afa
 
         Timer*                   m_timer;
 
+        static const  int64_t    m_update_time = 3000000;//定时器更新时间.3秒
+
         //char m_read_buff[READ_BUFF_SIZE]; //读缓冲区（套接字可读时，将数据读到此缓冲区）
         //int  m_read_index;                 //读取到的字节数，而不是最后一个字节的下标
         //std::string m_read_message;

@@ -33,7 +33,7 @@ namespace afa
         m_connection_callBack(shared_from_this());
 
         //添加定时器
-        m_timer = new Timer(std::bind(&TcpConnection::CloseHandle,shared_from_this()),(int64_t)(time(0)+3));
+        m_timer = new Timer(std::bind(&TcpConnection::CloseHandle,shared_from_this()),TimeStamp::Now()+m_update_time);
         m_loop->QueueInLoop(std::bind(&EventLoop::AddTimer,m_loop,m_timer));
     }
 
@@ -109,7 +109,7 @@ namespace afa
         }
 
         //更新定时器
-        m_timer->SetTime(m_timer->GetTime()+3);
+        m_timer->SetTime(m_timer->GetTime()+m_update_time);
         m_loop->QueueInLoop(std::bind(&EventLoop::UpdateTimer,m_loop,m_timer));
 
         read_bytes = m_read_buff.ReadableBytes();
@@ -181,9 +181,10 @@ namespace afa
             return;
         }
         m_loop->assertInLoopThread();
-        if(m_write_buff.Size()>0)
+        if(m_write_buff.ReadableBytes()>0)
         {
             //还有完整响应报文待发送
+            //不再监视可读事件，等到把发送缓冲区中的数据发送出去后就关闭连接
             m_sp_channel->DisableReading();
             SetState(DisConnecting);
         }

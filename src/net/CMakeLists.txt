@@ -14,6 +14,7 @@ set (
     ../base/LogFileAppender.cpp
     ../base/LogEventWarp.cpp
     ../base/Logger.cpp
+    ../base/TimeStamp.cpp
 )
 
 set (LIB_RPC

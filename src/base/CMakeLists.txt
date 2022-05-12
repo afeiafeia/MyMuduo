@@ -13,6 +13,7 @@ set(LIB_SRC
     LogFileAppender.cpp
     LogEventWarp.cpp
     Logger.cpp
+    TimeStamp.cpp
 )
 add_library(my_tiny_muduo_base ${LIB_SRC})
 target_link_libraries(my_tiny_muduo_base pthread rt)

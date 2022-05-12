@@ -2,7 +2,7 @@
 #include "TcpConnection.h"
 namespace afa
 {
-    Timer::Timer(const TimerCallBack &cb_fun,int64_t time)
+    Timer::Timer(const TimerCallBack &cb_fun,TimeStamp time)
     :m_expire(time)
     ,m_callback(cb_fun)
     {

@@ -6,6 +6,7 @@
 #include "../base/MutexLock.h"
 namespace afa
 {
+    //定时器的增删查改都在loop中进行，因此不使用锁
     class TimerHeap
     {
     public:
@@ -25,7 +26,6 @@ namespace afa
         void PopTimer();
         int Search(Timer* timer);
     private:
-        MutexLock           m_lock;
         std::vector<Timer*> m_vctTimer;
     };
 }
