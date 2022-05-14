@@ -1,6 +1,5 @@
 #include "Buffer.h"
 
-#include <assert.h>
 #include <unistd.h>
 #include <string.h>
 #include <sys/uio.h>
@@ -109,6 +108,7 @@ namespace afa
     {
         int32_t res;
         memcpy(&res,&m_buff[m_read_index],sizeof(int32_t));
+        Retrieve(sizeof(int32_t));
         return be32toh(res);
         //return res;
     }
@@ -117,6 +117,7 @@ namespace afa
     {
         int64_t res;
         memcmp(&res,&m_buff[m_read_index],sizeof(int64_t));
+        Retrieve(sizeof(int64_t));
         return be64toh(res);
     }
 

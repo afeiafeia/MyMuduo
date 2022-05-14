@@ -33,7 +33,7 @@ namespace afa
         m_connection_callBack(shared_from_this());
 
         //添加定时器
-        m_timer = new Timer(std::bind(&TcpConnection::CloseHandle,shared_from_this()),TimeStamp::Now()+m_update_time);
+        m_timer = new Timer(std::bind(&TcpConnection::CloseHandle,shared_from_this()),TimeStamp::Now()+m_update_time,3000);
         m_loop->QueueInLoop(std::bind(&EventLoop::AddTimer,m_loop,m_timer));
     }
 
@@ -208,6 +208,7 @@ namespace afa
     void TcpConnection::Send(std::string &msg)
     {
         m_write_buff.Append(msg);
+        m_write_buff.PrependInt32((int32_t)msg.size());
         if(!m_sp_channel->IsWriting())
         {
             m_sp_channel->EnableWriting();

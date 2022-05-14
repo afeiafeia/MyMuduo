@@ -19,6 +19,7 @@ namespace afa
     {
     public:
         typedef std::function<void (const std::shared_ptr<TcpConnection>)> ConnectionCallback;
+        typedef std::function<void (const std::shared_ptr<TcpConnection>)> CloseCallback;
         typedef std::function<void (const std::shared_ptr<TcpConnection>,Buffer &)> MessageCallBack;
         typedef std::shared_ptr<TcpConnection> SP_TcpConnection;
 
@@ -32,6 +33,7 @@ namespace afa
         std::shared_ptr<EventLoopThreadPool> m_sp_threadpool;        //线程池对象
         ConnectionCallback                   m_connection_callBack; //连接回调
         MessageCallBack                      m_message_callBack;    //消息回调：服务器对应业务处理
+        CloseCallback                        m_close_callback;      //关闭连接时的回调
 
         std::map<int,std::shared_ptr<TcpConnection>> m_map_connection; //TCP连接对象的智能指针
 
@@ -56,6 +58,11 @@ namespace afa
         void SetMessageCallBack(const MessageCallBack &cb)
         {
             m_message_callBack = cb;
+        }
+
+        void SetCloseCallBack(const CloseCallback &cb)
+        {
+            m_close_callback = cb;
         }
     private:
 

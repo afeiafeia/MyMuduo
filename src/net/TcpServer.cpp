@@ -76,6 +76,10 @@ namespace afa
     void TcpServer::CloseConnection(std::shared_ptr<TcpConnection> sp_conn)
     {
         //作为TcpConnection关闭时的回调函数，移除TcpServer所持有的智能指针，否则TcpConnection关闭后，仍占有着资源
+        if(m_close_callback)
+        {
+            m_close_callback(sp_conn);
+        }
         size_t n = m_map_connection.erase(sp_conn->GetChannel()->Getfd());
         (void)n;
         assert(n == 1);

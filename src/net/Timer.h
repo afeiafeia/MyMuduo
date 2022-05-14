@@ -11,7 +11,7 @@ namespace afa
         public:
         typedef std::function<void(void)> TimerCallBack;
     public:
-        Timer(const TimerCallBack &cb_fun,TimeStamp time);
+        Timer(const TimerCallBack &cb_fun,TimeStamp time,int interval);
         ~Timer();
 
         TimeStamp GetTime()
@@ -24,9 +24,13 @@ namespace afa
             m_expire = new_expire;
         }
 
+        bool ReStart();
+
+        TimerCallBack                m_callback; //过期时执行的函数
+
     private:
         TimeStamp                    m_expire;   //过期时间
-        TimerCallBack                m_callback; //过期时执行的函数
+        int                          m_interval;//周期
     };
 }
 

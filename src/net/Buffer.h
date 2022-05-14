@@ -2,6 +2,8 @@
 #define BUFFER_H
 #include <vector>
 #include <string>
+
+#include <assert.h>
 namespace afa
 {
 
@@ -21,6 +23,17 @@ namespace afa
         Buffer();
         ~Buffer();
 
+        char operator[](int index) const
+        {
+            assert(index<WritableBytes());
+            return m_buff[m_read_index+index];
+        }
+
+        char& operator[](int index)
+        {
+            assert(index<WritableBytes());
+            return m_buff[m_read_index+index];
+        }
         size_t ReadableBytes() const 
         {
             return m_write_index-m_read_index;
@@ -54,8 +67,13 @@ namespace afa
 
         const char* Peek() const
         {
-            return &m_buff[0]+m_read_index;
+            return &m_buff[m_read_index];
         }
+        char* Peek()
+        {
+            return &m_buff[m_read_index];
+        }
+
 
         int32_t GetHeader32();
 

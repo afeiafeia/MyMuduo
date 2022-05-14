@@ -29,9 +29,8 @@ namespace afa
 
     void TimerHeap::DelTimer()
     {
-        TimeStamp now = TimeStamp::Now();
         
-        while(!m_vctTimer.empty()&&m_vctTimer[0]->GetTime()<now)
+        while(!m_vctTimer.empty()&&m_vctTimer[0]->GetTime()<TimeStamp::Now())
         {
             PopTimer();
         }
@@ -67,8 +66,15 @@ namespace afa
         }
         //被删除的元素放到容器的末尾
         Timer* back = m_vctTimer.back();
-        delete back;
-        m_vctTimer.pop_back();
+        back->m_callback();
+        if(back->ReStart())
+        {
+            UpdateTimer(back);
+        }
+        else
+        {
+            m_vctTimer.pop_back();
+        }
     }
 
     void TimerHeap::UpdateTimer(Timer* timer)

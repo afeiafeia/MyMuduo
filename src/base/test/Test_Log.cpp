@@ -16,7 +16,7 @@ int main()
     //}
 
     std::string name("TestSylarLog");
-    afa::Logger::ptr TestLog = LOG_NAME(name);
+    afa::Logger::Ptr TestLog = LOG_NAME(name);
     //afa::LogAppender::ptr append(new afa::FileLogAppender("./TestSylarLog"));
     //TestLog->AddAppender(append);
     for(int i=0;i<10;i++)

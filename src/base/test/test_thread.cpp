@@ -3,7 +3,7 @@
 #include "../Log.h"
 #include "../Logger.h"
 using namespace afa;
-Logger::ptr log = LOG_ROOT();
+Logger::Ptr log = LOG_ROOT();
 
 void fun()
 {

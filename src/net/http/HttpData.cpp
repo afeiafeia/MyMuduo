@@ -1,6 +1,12 @@
 #include "HttpData.h"
 #include "../Channel.h"
-#include "../../Log.h"
+#include "../../base/Log.h"
+#include <string.h>
+#include <sys/unistd.h>
+#include <stdio.h>
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <stdarg.h>
 namespace afa
 {
     const char *ok_200_title = "OK";
@@ -13,93 +19,63 @@ namespace afa
     const char *error_500_title = "Internal Error";
     const char *error_500_form = "There was an unusual problem serving the request file.\n";
 
-    Logger::ptr http_logger = LOG_NAME("HttpServer");
-    Http_Data::Http_Data(EventLoop* loop,int sockfd)
-    :m_loop(loop)
-    ,m_spChannel(new Channel(loop,sockfd))
+    Logger::Ptr http_logger = LOG_NAME("HttpServer");
+
+    Http_Data::Http_Data(const Buffer &request)
     {
-        m_spChannel->SetReadHandle(std::bind(Http_Data::ReadHandle,this));
-        m_spChannel->SetWriteHandle(std::bind(Http_Data::WriteHandle,this));
-        m_spChannel->SetErrorHandle(std::bind(Http_Data::ErrorHandle,this));
+        m_read_buff.Append(request.Peek(),request.ReadableBytes());
+        m_length = m_read_buff.ReadableBytes();
+        Init();
     }
-    Http_Data::~Http_Data()
+
+    void Http_Data::AppendData(const Buffer &request)
     {
+        m_read_buff.Append(request.Peek(),request.ReadableBytes());
+        m_length = m_read_buff.ReadableBytes();
+    }
+
+    void Http_Data::Init()
+    {
+        m_check_state = CHECK_STATE_REQUESTLINE;
+        m_url = nullptr;
+        m_version = nullptr;
+
+        m_method = GET;
+        m_ContentLength = 0;
+        m_content = nullptr;
+        m_check_index= 0;
+        m_start_line = 0;
+        m_linger = false;
+
+        m_browser = nullptr;//浏览器版本
+        m_host = nullptr;//主机域名
+        m_file_address = nullptr;
+
+        memset(m_real_file_path,'\0',256);
+        m_parse_done = false;
 
     }
 
-    void Http_Data::ErrorHandle()
+    bool Http_Data::Parse()
     {
-        bool writeFlag = ProcessWrite(INTERNAL_ERROR);
-        if(writeFlag)
+        HTTP_STATE res = ParseRequest();
+        if(res==HTTP_STATE::NO_REQUEST)
         {
-            //取消对读事件的监视，开始监视可写事件
-            m_spChannel->DisableReading();
-            m_spChannel->EnableWriting();
+            return false;
         }
+        return ConstructResponse(res);
     }
 
-    void Http_Data::CloseHandle()
-    {
-        //从epoll中移除对该事件的监视
-        m_spChannel->Remove();
-        //从server中移除该http_data对象（会销毁对象）
-        if(m_closeBack)
-        {
-            m_closeBack(shared_from_this());
-        }
-    }
-
-    void Http_Data::ReadHandle()
-    {
-        bool readFlag = Read();
-        if(!readFlag)
-        {
-            //读取期间发生错误：将错误以500方式返回错误报文
-            ErrorHandle();
-        }
-        HTTP_STATE res = ProcessRead();
-        switch (res)
-        {
-        case BAD_REQUEST:
-            //报文语法有错误
-            //关闭连接
-            CloseHandle();
-            break;
-        case NO_REQUEST:
-            //请求报文不完整：继续监视
-            LOG_DEBUG(http_logger)<<"请求报文不完整";
-            break;
-        case GET_REQUEST:
-        case FILE_REQUEST:
-            {
-                bool flag = ProcessWrite(res);
-                if(flag)
-                {
-                    //取消对读事件的监视，开始监视可写事件
-                    m_spChannel->DisableReading();
-                    m_spChannel->EnableWriting();
-                }
-                break;
-            }
-        default:
-            break;
-        }
-    }
-    void Http_Data::Enable()
-    {
-        m_spChannel->EnableReading();
-    }
-
-    Http_Data::LINE_STATE ParseLine()
+    Http_Data::LINE_STATE Http_Data::ParseLine()
     {
         char tmp;
-        for(;m_check_index<=m_read_index;m_check_index++)
+        for(;m_check_index<=m_length;m_check_index++)
         {
             tmp = m_read_buff[m_check_index];
             if(tmp=='\r')
             {
                 //'\r'是最后一个字符，读取不完整，继续读取
-                if(m_check_idx+1==m_read_index)
+                if(m_check_index+1==m_length)
                 {
                     return Http_Data::LINE_OPEN;
                 }
@@ -128,7 +104,7 @@ namespace afa
 
     char* Http_Data::GetCurLine()
     {
-        return m_read_buff+m_start_line;
+        return m_read_buff.Peek()+m_start_line;
     }
 
     Http_Data::HTTP_STATE Http_Data::ParseRequestLine(char* ipCurLine)
@@ -190,50 +166,7 @@ namespace afa
         return NO_REQUEST;
     }
 
-    bool Http_Data::Read()
-    {
-
-        if(m_TRIGMode)
-        {
-            //ET模式：
-            while(1)
-            {
-                int byte_read = recv(m_sockfd,m_read_buff+m_read_index,READ_BUFF_SIZE-m_read_index,0);
-                if(byte_read<0)
-                {
-                    if(errno==EAGAIN||errno==EWOULDBLOCK)
-                    {
-                        //读完
-                        return true;
-                    }
-                    else
-                    {
-                        //出错
-                        AddResponse("%d%s\r\n",500,"Error In Server!");
-                        return false;
-                    }
-                }
-                m_read_index+=byte_read;
-            }
-        }
-        else
-        {
-            int byte_read = recv(m_sockfd,m_read_buff+m_read_index,READ_BUFF_SIZE-m_read_index,0);
-            if(byte_read<0)
-            {
-                //出错
-                AddResponse("%d%s\r\n",500,"Error In Server!");
-                return false;
-            }
-            m_read_index+=byte_read;
-        }
-        return true;
-    }
-
-
-
-
-    Http_Data::HTTP_STATE Http_Data::ProcessRead()
+    Http_Data::HTTP_STATE Http_Data::ParseRequest()
     {
 
         //初始化从状态机状态
@@ -289,9 +222,9 @@ namespace afa
         return NO_REQUEST;
 
     }
-    HTTP_STATE Http_Data::ParseHeaders(char* ipCurLine)
+    Http_Data::HTTP_STATE Http_Data::ParseHeaders(char* ipCurLine)
     {
-        if(ipCurLine=='\0')
+        if(*ipCurLine=='\0')
         {
             //前面的解析已将将每一行最后的\r\n替换为\0
             //当前解析的行是首部行最后一行（空行）
@@ -308,7 +241,7 @@ namespace afa
         {
             ipCurLine+=11;
             ipCurLine += strspn(ipCurLine," \t");
-            if(strncasecmp(ipCurLine,"keep-alive")==0)
+            if(strncasecmp(ipCurLine,"keep-alive",10)==0)
             {
                 m_linger = true;
             }
@@ -328,9 +261,9 @@ namespace afa
         return NO_REQUEST;
     }
 
-    HTTP_STATE Http_Data::ParseContent(char* ipCurLine)
+    Http_Data::HTTP_STATE Http_Data::ParseContent(char* ipCurLine)
     {
-        if(m_read_index>=m_ContentLength+m_check_index)
+        if(m_length>=m_ContentLength+m_check_index)
         {
             m_content = ipCurLine;
             m_content[m_ContentLength]='\0';
@@ -339,7 +272,7 @@ namespace afa
         return NO_REQUEST;
     }
 
-    HTTP_STATE Http_Data::DoRequest()
+    Http_Data::HTTP_STATE Http_Data::DoRequest()
     {
         //将m_real_file_path设置为根目录
         strcpy(m_real_file_path,m_root);
@@ -387,17 +320,11 @@ namespace afa
                 strcat(sql_insert, passwd);
                 strcat(sql_insert, "')");
  
-                if (users.find(name) == users.end())
+                if (m_users.find(name) == m_users.end())
                 {
-                    m_lock.Lock();
-                    int res = mysql_query(mysql, sql_insert);
-                    users.insert(pair<string, string>(name, passwd));
-                    m_lock.UnLock();
- 
-                    if (!res)
-                        strcpy(m_url, "/log.html");
-                    else
-                        strcpy(m_url, "/registerError.html");
+                    //int res = mysql_query(mysql, sql_insert);
+                    m_users.insert(std::pair<std::string, std::string>(name, passwd));
+                    strcpy(m_url, "/registerError.html");
                 }
                 else
                     strcpy(m_url, "/registerError.html");
@@ -407,7 +334,7 @@ namespace afa
             //若浏览器端输入的用户名和密码在表中可以查找到，返回1，否则返回0
             else if (*(p + 1) == '2')
             {
-                if (users.find(name) != users.end() && users[name] == passwd)
+                if (m_users.find(name) != m_users.end() && m_users[name] == passwd)
                     strcpy(m_url, "/welcome.html");
                 else
                     strcpy(m_url, "/logError.html");
@@ -469,7 +396,7 @@ namespace afa
             return BAD_REQUEST;
         }
         //以只读方式获取文件描述符，通过mmap将该文件映射到内存中
-        int fd=open(m_real_file_path,O_RDONLY);
+        int fd=::open(m_real_file_path,O_RDONLY);
         m_file_address=(char*)mmap(0,m_file_stat.st_size,PROT_READ,MAP_PRIVATE,fd,0);
  
         //避免文件描述符的浪费和占用
@@ -480,10 +407,7 @@ namespace afa
  
  
     }
-
-
-
-    bool Http_Data::ProcessWrite(HTTP_STATE ret)
+    bool Http_Data::ConstructResponse(HTTP_STATE ret)
     {
         //http响应报文格式
         /*
@@ -531,19 +455,13 @@ namespace afa
             }
             case FILE_REQUEST:
             {
-                add_status_line(200,ok_200_title);
+                AddStatusLine(200,ok_200_title);
                 if(m_file_stat.st_size!=0)
                 {
                     //使用IO向量机制，第一个iovec指向m_write_buff,存储的是相应报文的状态行、首部行、空行
                     //第二个iovec指向请求的文件所映射到的地址
                     AddHeaders(m_file_stat.st_size);
-                    m_io[0].iov_base = m_write_buff;
-                    m_io[0].iov_len = m_write_index;
-        
-                    m_io[1].iov_base = m_file_address;
-                    m_io[1].iov_len = m_file_stat.st_size;
-                    m_io_count = 2;
-                    byte_to_send = m_write_index+m_file_stat.st_size;
+                    m_write_buff.Append(m_file_address,m_file_stat.st_size);                  
                     return true;
         
         
@@ -558,34 +476,25 @@ namespace afa
                 }
                 break;
             }
-        
-        
-            m_io[0].iov_base = m_write_buff;
-            m_io[0].iov_len = m_write_index;
-            m_io_count = 1;
-        
             return true;
         }
     }
 
     bool Http_Data::AddResponse(const char* format,...)
     {
+        char tmp_buff[1024];
         va_list valist;
-        va_start(format,valist);
-        int len = vsnprintf(m_write_buff+m_write_index,WRITE_BUFF_SIZE-m_write_index-1,format,valist);
-        if(m_write_index+len+1>=WRITE_BUFF_SIZE)
-        {
-            va_end(valist);
-            return false;
-        }
-        m_write_index+=len;
+        va_start(valist,format);
+        int len = vsnprintf(tmp_buff,1024,format,valist);
         va_end(valist);
+
+        m_write_buff.Append(tmp_buff,len);
         return true;
     }
 
     bool Http_Data::AddStatusLine(int status,const char* title)
     {
-        AddResponse("%s %d %s \r\n","HTTP/1.1",ststus,title);
+        AddResponse("%s %d %s \r\n","HTTP/1.1",status,title);
     }
 
     bool Http_Data::AddHeaders(int content_len)
@@ -625,80 +534,6 @@ namespace afa
     {
         bool res = AddResponse("%s",pContent);
         return res;
-    }
-
-    void Http_Data::WriteHande()
-    {
-        bool res = Write();
-        if(!res)
-        {
-            m_closeBack(shared_from_this());
-        }
-    }
-
-    bool Http_Data::Write()
-    {
-        int tmp = 0;
-        int newadd = 0;
-        if(byte_to_send==0)
-        {
-            m_spChannel->EnableReading();
-            m_spChannel->DisableWriting();
-            init();
-            return m_linger;
-        }
-        while(1)
-        {
-            tmp = writev(m_sockfd,m_io,m_io_count);
-            if(tmp>0)
-            {
-                byte_have_send += tmp;
-                newadd = byte_have_send-m_write_index;
-            }
-            if(tmp<=-1)
-            {
-                //可能是发送缓冲区满了
-                if(errno==EAGAIN||errno==EWOULDBLOCK)
-                {
-                    if(byte_have_send>=m_write_index&&m_file_address)
-                    {
-                        m_io[0].iov_len = 0;
-                        m_io[1].iov_base = m_file_address+byte_have_send-m_write_index;
-                        m_io[1].iov_len = byte_to_send;
-                    }
-                    else
-                    {
-                        m_io[0].iov_base = m_write_buff+byte_have_send;
-                        m_io[0].iov_len  = m_write_index - byte_have_send;
-                    }
-                    //返回出去，继续监视可写事件
-                    return true;
-                }
-                //如果执行此处代码，说明是未知错误造成写操作失败
-                munmap(m_file_address, m_file_stat.st_size);
-                return false;
-            }
-            byte_to_send-=tmp;
-            if(byte_to_send<=0)
-            {
-                //发送完毕
-                munmap(m_file_address,m_file_stat.st_size);
-                //取消对可写事件的监视，重新监视可读事件
-                m_spChannel->DisableWriting();
-                m_spChannel->EnableReading();
-                if(m_linger)
-                {
-                    init();
-                    return true;
-                }
-                else
-                {
-                    //返回false，将使得服务器断开连接
-                    return false;
-                }
-            }
-        }
-        
     }
 
 
