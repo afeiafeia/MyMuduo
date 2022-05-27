@@ -43,6 +43,9 @@ set(LIB_NET
     Timer.cpp
     TimerHeap.cpp
     TimerManager.cpp
+    InetAddress.cpp
+    TcpSocket.cpp
+    TcpClient.cpp
     ${RPC}
     ${HTTP}
     ${BASE}
@@ -54,7 +57,7 @@ set(LIB_NET
 
 add_library(my_tiny_muduo_net STATIC ${LIB_NET})
 #target_link_libraries(my_tiny_muduo_net ${PATH}/libmy_tiny_muduo_base.a pthread protobuf)
-target_link_libraries(my_tiny_muduo_net pthread)
+target_link_libraries(my_tiny_muduo_net pthread protobuf)
 #set_target_properties(my_tiny_muduo_net PROPERTIES OUTPUT_NAME "net")
 
 #install(TARGETS my_tiny_muduo_net DESTINATION lib)

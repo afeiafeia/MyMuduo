@@ -11,7 +11,7 @@ int main()
     struct sockaddr_in addr;
     bzero(&addr,sizeof(addr));
     addr.sin_family = AF_INET;
-    addr.sin_port = 9876;
+    addr.sin_port = htonl(9876);
     inet_pton(AF_INET,"127.0.0.1",&addr.sin_addr);
 
     if(connect(fd,(struct sockaddr*)(&addr),sizeof(addr))<0)
@@ -38,7 +38,7 @@ int main()
             }
             else
             {
-                std::cout<<"Error in connect"<<std::endl;
+                //std::cout<<"Error in connect"<<std::endl;
                 return 0;
             }
         }

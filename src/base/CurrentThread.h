@@ -5,12 +5,14 @@ namespace afa
 {
     namespace CurrentThread
     {
-        extern __thread int  t_cachedTid;
-        extern __thread char t_tidString[32];
-        extern __thread int  t_tidStringLen;
+        extern __thread int  t_cachedTid;    //线程id
+        extern __thread char t_tidString[32];//线程id的字符串表示
+        extern __thread int  t_tidStringLen; //线程id字符数组的有效长度
         extern __thread const char* t_threadName;
 
         void cacheTid();
+
+        //获取tid
         inline int tid()
         {
             if(t_cachedTid==0)

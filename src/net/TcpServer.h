@@ -4,10 +4,12 @@
 #include "Buffer.h"
 #include "Channel.h"
 #include "TimerManager.h"
+#include "../base/noncopyable.h"
 #include <functional>
 #include <map>
 #include <memory>
 #include <sys/socket.h>
+#include "InetAddress.h"
 namespace afa
 {
     class EventLoop;
@@ -15,7 +17,7 @@ namespace afa
     class EventLoopThreadPool;
     class TcpConnection;
 
-    class TcpServer
+    class TcpServer:public noncopyable
     {
     public:
         typedef std::function<void (const std::shared_ptr<TcpConnection>)> ConnectionCallback;
@@ -42,7 +44,7 @@ namespace afa
 
 
     public:
-        TcpServer(EventLoop* loop,int32_t port,int threadNum = 5);
+        TcpServer(EventLoop* loop,int32_t port,int threadNum = 0);
         ~TcpServer();
 
         void Start();
@@ -67,7 +69,7 @@ namespace afa
     private:
 
 
-        void NewConnectionHandle(int sockfd,sockaddr* addr,socklen_t len);
+        void NewConnectionHandle(int sockfd,const InetAddress &address);
 
         void CloseConnection(std::shared_ptr<TcpConnection> spConn);
 

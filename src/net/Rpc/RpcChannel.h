@@ -23,8 +23,10 @@ namespace afa
 
         ~RpcChannel();
 
+        //调用code的OnMessage，从buff中取数据，解析为相应的msg，然后进行业务逻辑处理
         void OnMessage(SP_TcpConnection sp_conn,Buffer &buf);
 
+        //从sp_msg中取出消息进程业务逻辑处理，然后构造一个回复msg，通过code发送出去
         void OnRpcMessage(SP_TcpConnection sp_conn,std::shared_ptr<google::protobuf::Message> sp_msg);
 
         virtual void CallMethod(

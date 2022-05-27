@@ -16,6 +16,7 @@ namespace afa
         {
           LOG_ERROR(logger) << "Failed in timerfd_create";
         }
+        LOG_ERROR(logger) << "timerfd:"<<timerfd<< " is created!";
         return timerfd;
     }
     TimerManager::TimerManager(EventLoop* loop,int time_slot)
@@ -24,9 +25,9 @@ namespace afa
     ,m_timerfd(CreateTimerfd())
     ,m_timer_channel(new Channel(m_timerfd,loop))
     {
-        m_timer_channel->SetReadHandle(std::bind(&TimerManager::HandleRead,this));
-        m_timer_channel->EnableReading();
-        ResetTimerFd(m_time_slot,false); 
+        //m_timer_channel->SetReadHandle(std::bind(&TimerManager::HandleRead,this));
+        //m_timer_channel->EnableReading();
+        //ResetTimerFd(m_time_slot,false); 
     }
     TimerManager::~TimerManager()
     {
@@ -35,11 +36,14 @@ namespace afa
 
     void TimerManager::AddTimer(Timer* iAddTimer)
     {
+        LOG_DEBUG(logger)<<"TimerManager::AddTimer()!";
         m_timer_heap.AddTimer(iAddTimer);
+        LOG_DEBUG(logger)<<"Timer num is:"<<m_timer_heap.Size();
     }
 
     void TimerManager::HandleRead()
     {
+        LOG_DEBUG(logger)<<"TimerManager::HandleRead()!";
         uint64_t data;
         int n = ::read(m_timerfd,&data,sizeof(data));
         if(n!=sizeof(data))
@@ -52,7 +56,6 @@ namespace afa
 
     void TimerManager::ResetTimerFd(TimeStamp periodic,bool oneshot)
     {
-        periodic = periodic+TimeStamp::Now();
 
         struct timespec ts;
         ts.tv_sec = periodic.GetTime()/1000;

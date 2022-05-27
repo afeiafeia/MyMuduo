@@ -19,6 +19,7 @@ namespace afa
     const char *error_500_title = "Internal Error";
     const char *error_500_form = "There was an unusual problem serving the request file.\n";
 
+    const char *root_path = "/home/zaf/MyProject/MyMuduo/doc";
     Logger::Ptr http_logger = LOG_NAME("HttpServer");
 
     Http_Data::Http_Data(const Buffer &request)
@@ -42,7 +43,6 @@ namespace afa
 
         m_method = GET;
         m_ContentLength = 0;
-        m_content = nullptr;
         m_check_index= 0;
         m_start_line = 0;
         m_linger = false;
@@ -50,7 +50,8 @@ namespace afa
         m_browser = nullptr;//浏览器版本
         m_host = nullptr;//主机域名
         m_file_address = nullptr;
-
+        memset(m_root_path,'\0',256);
+        strcpy(m_root_path,root_path);
         memset(m_real_file_path,'\0',256);
         m_parse_done = false;
 
@@ -98,8 +99,9 @@ namespace afa
                     return Http_Data::LINE_OK;
                 }
             }
-            return Http_Data::LINE_BAD;
         }
+        return Http_Data::LINE_BAD;
+
     }
 
     char* Http_Data::GetCurLine()
@@ -132,6 +134,7 @@ namespace afa
 
         //版本
         m_version = strpbrk(m_url," \t");
+        *m_version++ = '\0';
         if(m_version==nullptr)
         {
             return Http_Data::BAD_REQUEST;
@@ -158,10 +161,10 @@ namespace afa
             return BAD_REQUEST;
         }
 
-        if(strlen(m_url)==1)
-        {
-            strcat(m_url,"judge.html");
-        }
+        //if(strlen(m_url)==1)
+        //{
+        //    strcat(m_url,"judge.html");
+        //}
         m_check_state = CHECK_STATE_HEADER;
         return NO_REQUEST;
     }
@@ -275,7 +278,7 @@ namespace afa
     Http_Data::HTTP_STATE Http_Data::DoRequest()
     {
         //将m_real_file_path设置为根目录
-        strcpy(m_real_file_path,m_root);
+        strcpy(m_real_file_path,m_root_path);
  
         int len = strlen(m_real_file_path);
  
@@ -380,9 +383,12 @@ namespace afa
             int length = strlen(pFans);
             strncpy(m_real_file_path+len,pFans,length);
         }
-        else
+        else if(*(p+1)=='\0')
         {
-            strncpy(m_real_file_path+len,m_url,FILENAME_MAX-len-1);
+            //首次访问
+            const char* pFirstLog = "/judge.html";
+            int length = strlen(pFirstLog);
+            strncpy(m_real_file_path+len,pFirstLog,length);
         }
         //通过stat函数获取请求的资源的属性信息
         if(stat(m_real_file_path,&m_file_stat)<0)
@@ -517,11 +523,11 @@ namespace afa
     {
         if(m_linger)
         {
-            AddResponse("Conectino:%s\r\n","keep-alive");
+            AddResponse("Connection:%s\r\n","keep-alive");
         }
         else
         {
-            AddResponse("Conectino:%s\r\n","close");
+            AddResponse("Connection:%s\r\n","close");
         }
     }
 

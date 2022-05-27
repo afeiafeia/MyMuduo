@@ -14,17 +14,17 @@ namespace afa
 
     }
 
-    TimeStamp TimeStamp::operator+(const TimeStamp &rhs)
+    TimeStamp TimeStamp::operator+(const TimeStamp &rhs)const
     {
         return TimeStamp(rhs.m_time+m_time);
     }
 
-    bool TimeStamp::operator<(const TimeStamp &rhs)
+    bool TimeStamp::operator<(const TimeStamp &rhs)const
     {
         return m_time<rhs.m_time;
     }
 
-    bool TimeStamp::operator>(const TimeStamp &rhs)
+    bool TimeStamp::operator>(const TimeStamp &rhs)const
     {
         return m_time>rhs.m_time;
     }
@@ -40,7 +40,7 @@ namespace afa
         return cur;
     }
 
-    int64_t TimeStamp::GetTime()
+    int64_t TimeStamp::GetTime()const
     {
         return m_time;
     }

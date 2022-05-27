@@ -162,7 +162,7 @@ namespace afa
 
         bool m_parse_done;
         //
-        char* m_root;//根目录
+        char  m_root_path[256];//根目录
         char  m_real_file_path[256];  //所请求文件所在的路径
         struct stat m_file_stat;//文件的属性信息
     };

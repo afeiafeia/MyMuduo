@@ -13,25 +13,25 @@ namespace afa
         typedef std::shared_ptr<LogEvent> Ptr;
     private:
         LogLevel::Level          m_level;           //日志级别
-        std::string              m_file_name;        //日志语句所在文件，通过__FILE__宏得到
-        std::string              m_method_name;      //日志语句所在函数，通过__func_宏得到
+        std::string              m_file_name;       //日志语句所在文件，通过__FILE__宏得到
+        std::string              m_method_name;     //日志语句所在函数，通过__func_宏得到
         u_int32_t                m_line;            //行号
-        u_int32_t                m_thread_id;        //线程id
-        u_int32_t                m_fiber_id;         //协程id
+        u_int32_t                m_thread_id;       //线程id
+        u_int32_t                m_fiber_id;        //协程id
         u_int64_t                m_time;            //时间
-        std::string m_thread_name;                   //线程名称
-        std::string m_format_content;
-        std::stringstream m_content_stream;
+        std::string              m_thread_name;     //线程名称
+        std::string              m_format_content;  //格式化字符串，用于格式化输出日志时存储日志内容
+        std::stringstream        m_content_stream;  //字符串流，用于流式输出日志时存储日志内容
 
     public:
         LogEvent(LogLevel::Level level,
-                std::string     fileName,
-                std::string     methodName,
-                u_int32_t       line,
-                u_int32_t       threadId,
-                u_int32_t       fiberId,
-                u_int64_t       time,
-                std::string     threadName);
+                std::string      fileName,
+                std::string      methodName,
+                u_int32_t        line,
+                u_int32_t        threadId,
+                u_int32_t        fiberId,
+                u_int64_t        time,
+                std::string      threadName);
 
         ~LogEvent();
 

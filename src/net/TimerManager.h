@@ -24,7 +24,7 @@ namespace afa
         void ResetTimerFd(TimeStamp periodic,bool oneshot=true);
     private:
         EventLoop*               m_loop;
-        int                      m_time_slot;//每隔m_time_slot时间触发一次可读事件
+        int                      m_time_slot;//每隔m_time_slot毫秒时间触发一次可读事件
         TimerHeap                m_timer_heap;//时间堆：管理定时器
         int                      m_timerfd;//时间事件描述符
         std::unique_ptr<Channel> m_timer_channel;//时间时间描述符对应的Channel

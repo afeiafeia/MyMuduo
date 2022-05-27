@@ -50,11 +50,11 @@ namespace afa
     void HttpServer::OnMessage(SP_TcpConnection sp_conn,Buffer &buff)
     {
         
-        while(buff.ReadableBytes()>0)
+        //while(buff.ReadableBytes()>0)
         {
             //使用循环的目的：如果缓冲区中有多条消息，可以一直处理直到处理完或者剩下的是不完整消息
-            int32_t length = buff.GetHeader32();
-            if(buff.ReadableBytes()>=static_cast<size_t>(length))
+            //int32_t length = buff.GetHeader32();
+            //if(buff.ReadableBytes()>=static_cast<size_t>(length))
             {
                 LOG_DEBUG(logger)<<"存在完整消息";
                 //至少有一个完整消息
@@ -71,8 +71,10 @@ namespace afa
                 else
                 {
                     m_mapHttpData[fd].reset(new Http_Data(buff));
+                    data = m_mapHttpData[fd];
                 }
-                buff.Retrieve(length);
+                //buff.Retrieve(length);
+                buff.RetrieveAll();
                 if(data->Parse())
                 {
                     Buffer &&buf = data->GetResponse();
@@ -82,15 +84,15 @@ namespace afa
                 {
                     //解析失败不一定是报文错误，也可能报文不完整
                     LOG_ERROR(logger)<<"解析失败";
-                    break;
+                    //break;
                 }
             }
-            else
-            {
-                //是一个不完整消息
-                LOG_INFO(logger)<<"待解析消息不完整";
-                break;
-            }
+            //else
+            //{
+            //    //是一个不完整消息
+            //    LOG_INFO(logger)<<"待解析消息不完整";
+            //   // break;
+            //}
         }
 
         return;

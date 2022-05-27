@@ -10,8 +10,8 @@ namespace afa
     public:
         typedef std::shared_ptr<LogAppender> Ptr;
     private:
-        LogLevel::Level m_level;
-        std::shared_ptr<LogFormatter> m_sp_formatter;
+        LogLevel::Level               m_level;       //日志级别
+        std::shared_ptr<LogFormatter> m_sp_formatter;//日式格式器
 
     public:
         LogAppender()
@@ -40,6 +40,7 @@ namespace afa
             m_level = level;
         }
 
+        //写日志
         virtual void Log(LogLevel::Level level,LogEvent::Ptr event)=0;
     };
 }

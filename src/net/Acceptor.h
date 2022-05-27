@@ -4,6 +4,8 @@
 #include <memory>
 #include <sys/socket.h>
 #include "Channel.h"
+#include "InetAddress.h"
+#include "TcpSocket.h"
 class EventLoop;
 namespace afa
 {
@@ -11,12 +13,12 @@ namespace afa
     {
     public:
         typedef std::function<void(void*)> CallBack;
-        typedef std::function<void (int sockfd,sockaddr* addr,socklen_t len)> NewConnectionCallBack;
+        typedef std::function<void (int sockfd,const InetAddress &address)> NewConnectionCallBack;
 
     private:
         EventLoop*               m_loop;
-        int                      m_listenfd;  //监听套接字
-        int32_t                  m_port;      //所监听端口
+        TcpSocket                m_listensocket;  //监听套接字
+        InetAddress              m_listenaddress;      //所监听地址
         std::unique_ptr<Channel> m_channel;   //监听套接字对应的channel
         NewConnectionCallBack    m_new_connection_CB; //先连接到来时调用的函数，对连接套接字处理
 

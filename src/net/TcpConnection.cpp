@@ -4,20 +4,21 @@
 #include "../base/Log.h"
 #include <unistd.h>
 #include "TimerManager.h"
+#include <string.h>
 namespace afa
 {
     static Logger::Ptr logger = LOG_ROOT();
-    TcpConnection::TcpConnection(EventLoop* loop,int fd,sockaddr* addr,socklen_t len)
+    TcpConnection::TcpConnection(EventLoop* loop,int fd,const InetAddress &address)
     :m_loop(loop)
     ,m_sp_channel(new Channel(fd,loop))
-    ,m_addr(addr)
-    ,m_addr_len(len)
     ,m_state(Connecting)
     ,m_timer(nullptr)
+    ,m_address(address)
     {
         m_sp_channel->SetReadHandle(std::bind(&TcpConnection::ReadHandle,this));
         m_sp_channel->SetWriteHandle(std::bind(&TcpConnection::WriteHandle,this));
         m_sp_channel->SetErrorHandle(std::bind(&TcpConnection::ErrorHandle,this));
+        LOG_DEBUG(logger)<<"TcpConnection is created!";
     }
 
     TcpConnection::~TcpConnection()
@@ -28,13 +29,17 @@ namespace afa
 
     void TcpConnection::ConnectionEstablished()
     {
+        LOG_DEBUG(logger)<<"Connected!";
         SetState(Connected);
         m_sp_channel->EnableReading();
-        m_connection_callBack(shared_from_this());
+        if(m_connection_callBack)
+        {
+            m_connection_callBack(shared_from_this());
+        }
 
-        //添加定时器
-        m_timer = new Timer(std::bind(&TcpConnection::CloseHandle,shared_from_this()),TimeStamp::Now()+m_update_time,3000);
-        m_loop->QueueInLoop(std::bind(&EventLoop::AddTimer,m_loop,m_timer));
+        //添加定时器：将在m_update_time时候后超时
+        //m_timer = new Timer(std::bind(&TcpConnection::CloseHandle,shared_from_this()),TimeStamp::Now()+m_update_time,0);
+        //m_loop->QueueInLoop(std::bind(&EventLoop::AddTimer,m_loop,m_timer));
     }
 
     void TcpConnection::ConnectionDestroyed()
@@ -72,8 +77,11 @@ namespace afa
                if(err!=EAGAIN&&err!=EWOULDBLOCK)
                {
                     LOG_ERROR(logger)<<"Error In Read fd = "<<m_sp_channel->Getfd();
+                    LOG_DEBUG(logger)<<"errno is: "<<strerror(errno);
                     m_loop->QueueInLoop(std::bind(&EventLoop::EraseTimer,m_loop,m_timer));
                     ErrorHandle();//错误处理之前是不是要考虑把发送缓冲区中的数据发送出去？？？
+
+                    return;
                }
            }
         }
@@ -101,16 +109,18 @@ namespace afa
                    else
                    {
                        LOG_DEBUG(logger)<<"Error In Read fd = "<<m_sp_channel->Getfd();
+                       LOG_DEBUG(logger)<<"errno is: "<<strerror(errno);
                        m_loop->QueueInLoop(std::bind(&EventLoop::EraseTimer,m_loop,m_timer));
                        ErrorHandle();
+                       return;
                    }
                }
             }
         }
 
         //更新定时器
-        m_timer->SetTime(m_timer->GetTime()+m_update_time);
-        m_loop->QueueInLoop(std::bind(&EventLoop::UpdateTimer,m_loop,m_timer));
+        //m_timer->SetTime(m_timer->GetTime()+m_update_time);
+        //m_loop->QueueInLoop(std::bind(&EventLoop::UpdateTimer,m_loop,m_timer));
 
         read_bytes = m_read_buff.ReadableBytes();
         LOG_DEBUG(logger)<<"readable bytes is: "<<read_bytes;
@@ -194,7 +204,10 @@ namespace afa
             SetState(DisConnected);
         }
         LOG_DEBUG(logger)<<"TcpConnection's CloseCallback";
-        m_close_callBack(shared_from_this());
+        if(m_close_callBack)
+        {
+            m_close_callBack(shared_from_this());
+        }
         LOG_DEBUG(logger)<<"TcpConnection's CloseCallback Done";
     }
 

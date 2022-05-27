@@ -25,13 +25,13 @@ namespace afa
 
         char operator[](int index) const
         {
-            assert(index<WritableBytes());
+            //assert(index<WritableBytes());
             return m_buff[m_read_index+index];
         }
 
         char& operator[](int index)
         {
-            assert(index<WritableBytes());
+            //assert(index<WritableBytes());
             return m_buff[m_read_index+index];
         }
         size_t ReadableBytes() const 
@@ -96,6 +96,8 @@ namespace afa
         void PrependInt64(int64_t num);
         std::string RetrieveAllAsString();
         void Retrieve(size_t len);
+
+        void RetrieveAll();
 
     private:
         std::string RetrieveAsString(size_t len);

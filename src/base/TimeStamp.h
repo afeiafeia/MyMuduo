@@ -13,14 +13,14 @@ namespace afa
         TimeStamp();
         TimeStamp(int64_t time);
 
-        TimeStamp operator+(const TimeStamp &rhs);
+        TimeStamp operator+(const TimeStamp &rhs)const;
 
-        bool operator<(const TimeStamp &rhs);
-        bool operator>(const TimeStamp &rhs);
+        bool operator<(const TimeStamp &rhs)const;
+        bool operator>(const TimeStamp &rhs)const;
 
         static int64_t Now();
 
-        int64_t GetTime();
+        int64_t GetTime()const;
 
         void SetNewTime(int64_t new_time);
 

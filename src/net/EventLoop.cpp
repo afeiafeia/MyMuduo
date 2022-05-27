@@ -21,6 +21,7 @@ namespace afa
         {
             abort();
         }
+        LOG_DEBUG(logger)<<"Creating eventfd: "<<evefd;
         return evefd;
     }
     EventLoop::EventLoop()
@@ -31,7 +32,7 @@ namespace afa
     ,m_spWakeUpChannel(new Channel(m_wakeId,this))
     ,m_spEpoll(new EpollPoller(this))
     ,m_mutex(MutexLock())
-    ,m_timer_manager(this,3)
+    ,m_timer_manager(this,3000)
     {
         LOG_DEBUG(logger)<<"EventLoop: "<<this<<" is created in thread "<<CurrentThread::tid();
 
@@ -62,12 +63,12 @@ namespace afa
         assertInLoopThread();
         m_quit = false;
         LOG_INFO(logger)<<"EventLoop: "<<this<<" in thread "<<m_threadId<<" start looping!";
-        
+        TimeStamp timeout(-1);
         while(m_quit==false)
         {
             std::vector<Channel*> vctActiveChannel;
             LOG_INFO(logger)<<"Loop Wait!";
-            m_spEpoll->Poll(vctActiveChannel);
+            m_spEpoll->Poll(vctActiveChannel,timeout);
             int num = vctActiveChannel.size();
             LOG_DEBUG(logger)<<"Active Channel Num Is: "<<num;
             for(int i=0;i<num;i++)
@@ -137,6 +138,17 @@ namespace afa
         {
             QueueInLoop(std::move(cb));
         }
+    }
+
+    void EventLoop::RunAfter(const Functor &cb,TimeStamp after)
+    {
+        RunAt(cb,after+TimeStamp::Now());
+    }
+
+    void EventLoop::RunAt(const Functor &cb,TimeStamp time)
+    {
+        Timer*  timer = new Timer(cb,time,0);
+        QueueInLoop(std::bind(&EventLoop::AddTimer,this,timer));
     }
 
     void EventLoop::QueueInLoop(const Functor &cb)
@@ -209,6 +221,10 @@ namespace afa
     void EventLoop::EraseTimer(Timer* timer)
     {
         assertInLoopThread();
+        if(timer==nullptr)
+        {
+            return;
+        }
         m_timer_manager.EraseTimer(timer);
     }
 }

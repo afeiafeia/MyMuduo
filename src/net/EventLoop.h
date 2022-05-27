@@ -115,7 +115,9 @@ namespace afa
          */
         static EventLoop* GetEventLoopOfCurThread();
 
+        void RunAfter(const Functor &cb,TimeStamp after);
 
+        void RunAt(const Functor &cb,TimeStamp time);
 
         void AddTimer(Timer* timer);
 

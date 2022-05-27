@@ -21,7 +21,10 @@ namespace afa
         void UpdateTimer(Timer* timer);
 
         void EraseTimer(Timer* timer);
-        
+        int Size()
+        {
+            return (int)m_vctTimer.size();
+        }
     private:
         void PopTimer();
         int Search(Timer* timer);

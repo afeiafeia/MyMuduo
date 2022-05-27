@@ -32,8 +32,8 @@ namespace afa
         RpcMessage cur_msg;
         cur_msg.set_type(MessageType::REQUEST);
         cur_msg.set_id(++m_id);
-        cur_msg.set_service(method->service()->full_name());
-        cur_msg.set_method(method->name());
+        cur_msg.set_service(method->service()->full_name());//服务的名称
+        cur_msg.set_method(method->name());//方法的名称
         cur_msg.set_request(request->SerializeAsString());
 
         m_codec.Send(m_sp_conn,cur_msg);

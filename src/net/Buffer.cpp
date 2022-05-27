@@ -36,6 +36,13 @@ namespace afa
         }
     }
 
+    void Buffer::RetrieveAll()
+    {
+        //读取完
+        m_read_index = KPrepend;
+        m_write_index = KPrepend;
+    }
+
     std::string Buffer::RetrieveAsString(size_t len)
     {
         assert(len<=ReadableBytes());
@@ -57,14 +64,14 @@ namespace afa
         }
         uint32_t cur = num;
         num = htobe32(cur);
-        LOG_INFO(logger)<<"Buffer::AppendInt32:"<<cur;
-        LOG_INFO(logger)<<"Buffer::AppendInt32:"<<num;
+        //LOG_INFO(logger)<<"Buffer::AppendInt32:"<<cur;
+        //LOG_INFO(logger)<<"Buffer::AppendInt32:"<<num;
         memmove((void*)(&m_buff[0]+m_write_index),(void*)&num,sizeof(int32_t));
-        int x = 0;
-        memmove((void*)(&x),(void*)(&m_buff[0]+m_write_index),sizeof(int32_t));
-        LOG_INFO(logger)<<"Buffer::AppendInt32:"<<x;
-        x = be32toh(x);
-        LOG_INFO(logger)<<"Buffer::AppendInt32:"<<x;
+        //int x = 0;
+        //memmove((void*)(&x),(void*)(&m_buff[0]+m_write_index),sizeof(int32_t));
+        //LOG_INFO(logger)<<"Buffer::AppendInt32:"<<x;
+        //x = be32toh(x);
+        //LOG_INFO(logger)<<"Buffer::AppendInt32:"<<x;
         m_write_index+=sizeof(int32_t);
     }
 

@@ -4,6 +4,7 @@
 #include "TcpConnection.h"
 #include <sys/fcntl.h>
 #include "../base/Log.h"
+#include "InetAddress.h"
 namespace afa
 {
     static Logger::Ptr logger = LOG_ROOT();
@@ -14,7 +15,7 @@ namespace afa
     ,m_sp_threadpool(new EventLoopThreadPool(loop,thread_num))
     {
         m_sp_acceptor->SetNewConnectionCB(
-            std::bind(&TcpServer::NewConnectionHandle,this,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3));
+            std::bind(&TcpServer::NewConnectionHandle,this,std::placeholders::_1,std::placeholders::_2));
     }
     TcpServer::~TcpServer()
     {
@@ -50,10 +51,10 @@ namespace afa
         return old_option;
     }
 
-    void TcpServer::NewConnectionHandle(int sockfd,sockaddr* addr,socklen_t len)
+    void TcpServer::NewConnectionHandle(int sockfd,const InetAddress &address)
     {
         EventLoop* cur_loop = m_sp_threadpool->GetNextLoop();
-        SP_TcpConnection sp_conn(new TcpConnection(cur_loop,sockfd,addr,len));
+        SP_TcpConnection sp_conn(new TcpConnection(cur_loop,sockfd,address));
         if(m_sock_model==Channel::TriggerModel::ET)
         {
             sp_conn->GetChannel()->SetETTrigger();
@@ -81,8 +82,8 @@ namespace afa
             m_close_callback(sp_conn);
         }
         size_t n = m_map_connection.erase(sp_conn->GetChannel()->Getfd());
-        (void)n;
-        assert(n == 1);
+        //(void)n;
+        //assert(n == 1);
     }
 
    

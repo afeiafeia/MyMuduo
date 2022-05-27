@@ -27,7 +27,7 @@ namespace afa
     ,m_events(0)
     ,m_state(ChannelState::UnRegistered)
     {
-        LOG_DEBUG(logger)<<"Channel with fd "<<m_fd<<" is created!";
+        //LOG_DEBUG(logger)<<"Channel with fd "<<m_fd<<" is created!";
     }
 
     Channel::~Channel()
@@ -61,6 +61,7 @@ namespace afa
         }
         else if(m_revents&(EPOLLIN|EPOLLPRI|EPOLLRDHUP))
         {
+            LOG_DEBUG(logger)<<"ReadHandle()!";
             ReadHandler();
         }
         else if(m_revents&EPOLLOUT)

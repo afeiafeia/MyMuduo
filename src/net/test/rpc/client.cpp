@@ -10,6 +10,7 @@
 #include "../../Rpc/RpcChannel.h"
 #include "../../TcpConnection.h"
 #include "../../EventLoop.h"
+#include "../../InetAddress.h"
 using namespace afa;
 int main()
 {
@@ -30,10 +31,11 @@ int main()
     char buff[128] = "Hello World!";
     char read_buff[128];
     sleep(1);
+    InetAddress address;
     while(1)
     {
         EventLoop loop;
-        SP_TcpConnection sp_conn(new TcpConnection(&loop,fd,nullptr,(socklen_t)0));
+        SP_TcpConnection sp_conn(new TcpConnection(&loop,fd,address));
         afa::ProtoRequest rpc_rsq;
         rpc_rsq.set_message_name("afei's request");
         

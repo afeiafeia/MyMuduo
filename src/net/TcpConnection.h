@@ -3,11 +3,17 @@
 
 #define READ_BUFF_SIZE 1024
 #define WRITE_BUFF_SIZE 1024
-#include "Buffer.h"
-#include <memory>
+
 #include <functional>
+#include <memory>
+#include <netinet/in.h>
 #include <string>
 #include <sys/socket.h>
+
+#include "Buffer.h"
+#include "Callback.h"
+#include "InetAddress.h"
+
 namespace afa
 {
     class EventLoop;
@@ -17,9 +23,6 @@ namespace afa
     {
     public:
         typedef std::shared_ptr<Channel> SP_Channel;
-        typedef std::function<void(const std::shared_ptr<TcpConnection>)> CloseCallBack;
-        typedef std::function<void (const std::shared_ptr<TcpConnection>)> ConnectionCallback;
-        typedef std::function<void (const std::shared_ptr<TcpConnection>,Buffer&)> MessageCallback;
     private:
         enum State
         {
@@ -31,12 +34,10 @@ namespace afa
   
         EventLoop*               m_loop;
         std::shared_ptr<Channel> m_sp_channel;
-        struct sockaddr*         m_addr;
-        socklen_t                m_addr_len;
+
+        InetAddress              m_address;
         State                    m_state;
-
         Timer*                   m_timer;
-
         static const  int64_t    m_update_time = 3000000;//定时器更新时间.3秒
 
         //char m_read_buff[READ_BUFF_SIZE]; //读缓冲区（套接字可读时，将数据读到此缓冲区）
@@ -55,7 +56,7 @@ namespace afa
         ConnectionCallback m_connection_callBack;//用于输出一些基本信息
 
     public:
-        TcpConnection(EventLoop* loop,int fd,sockaddr* addr,socklen_t len);
+        TcpConnection(EventLoop* loop,int fd,const InetAddress &address);
         ~TcpConnection();
 
         void SetCloseCallBack(const CloseCallBack &cb)
@@ -79,7 +80,7 @@ namespace afa
             m_state = state;
         }
 
-        SP_Channel GetChannel()
+        SP_Channel GetChannel() const
         {
             return m_sp_channel;
         }

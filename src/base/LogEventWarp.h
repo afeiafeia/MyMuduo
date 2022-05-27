@@ -11,8 +11,8 @@ namespace afa
         typedef std::shared_ptr<LogEventWarp> Ptr;
 
     private:
-        LogEvent::Ptr m_event;
-        Logger::Ptr   m_logger;
+        LogEvent::Ptr m_event; //日志事件
+        Logger::Ptr   m_logger;//日志器
     public:
         LogEventWarp(Logger::Ptr logger,LogEvent::Ptr event);
 

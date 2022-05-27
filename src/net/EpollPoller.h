@@ -5,6 +5,7 @@
 #include <memory>
 #include <sys/epoll.h>
 #include "Poller.h"
+#include "../base/TimeStamp.h"
 namespace afa
 {
     class EventLoop;
@@ -14,7 +15,9 @@ namespace afa
     public:
     private:
         int m_epollfd;
-        std::vector<epoll_event> m_vctEvents;
+        std::vector<epoll_event> m_vctEvents;//用于epoll_wait的参数，存放返回的就绪的事件
+        int32_t                  m_max_fd;//所监视的最大描述符
+
 
     public:
         EpollPoller(EventLoop* loop);
@@ -22,7 +25,7 @@ namespace afa
 
         void UpdateChannel(Channel* pChannel);
 
-        void Poll(std::vector<Channel*> &oActiveChannel);
+        void Poll(std::vector<Channel*> &oActiveChannel,const TimeStamp &time);
         
     private:
         void RemoveChannel(Channel* pChannel);

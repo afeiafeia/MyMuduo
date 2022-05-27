@@ -2,6 +2,7 @@
 #define POLLER_H
 #include <vector>
 #include <map>
+#include "../base/TimeStamp.h"
 namespace afa
 {
     class EventLoop;
@@ -32,7 +33,7 @@ namespace afa
          * @author afei
          * @date   2022-03-27
          */
-        virtual void Poll(std::vector<Channel*> &oActiveChannel)=0;
+        virtual void Poll(std::vector<Channel*> &oActiveChannel,const TimeStamp &time)=0;
 
         /**
          * @brief  更新对于Channel的监视状态，添加进注册、移除或者修改

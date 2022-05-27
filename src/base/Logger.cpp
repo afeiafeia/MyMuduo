@@ -49,7 +49,7 @@ namespace afa
             MutexLockGuard guard(&m_lock);
             if(!m_vct_appenders.empty())
             {
-                m_vct_appenders.insert(m_vct_appenders.end(),m_vct_appenders.begin(),m_vct_appenders.end());
+                vct_appenders.insert(vct_appenders.end(),m_vct_appenders.begin(),m_vct_appenders.end());
             }
             vct_appenders.swap(m_vct_appenders);
         }

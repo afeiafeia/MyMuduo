@@ -1,8 +1,10 @@
 #include "TimerHeap.h"
 #include "../base/MutexLockGuard.h"
+#include "../base/Log.h"
 #include <ctime>
 namespace afa
 {
+    static Logger::Ptr logger = LOG_ROOT();
     TimerHeap::TimerHeap()
     {
 
@@ -29,12 +31,14 @@ namespace afa
 
     void TimerHeap::DelTimer()
     {
-        
+        LOG_DEBUG(logger)<<"TimerHeap::DelTimer()";
+        LOG_DEBUG(logger)<<"Timer's size: "<<Size();
         while(!m_vctTimer.empty()&&m_vctTimer[0]->GetTime()<TimeStamp::Now())
         {
+            LOG_DEBUG(logger)<<"timer expired!";
             PopTimer();
         }
-
+        LOG_DEBUG(logger)<<"Timer's size: "<<Size();
     }
 
     void TimerHeap::PopTimer()
@@ -73,6 +77,7 @@ namespace afa
         }
         else
         {
+            delete back;
             m_vctTimer.pop_back();
         }
     }

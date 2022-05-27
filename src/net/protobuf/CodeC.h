@@ -50,7 +50,7 @@ namespace afa
          * @date   2022-04-22
          */
         void Send(SP_TcpConnection &sp_conn,const google::protobuf::Message &msg);
-
+        //解析buff中存储的消息，并根据解析的结果构造相应的回复报文，并发送到tcp的发送缓冲区中，等tcp套接字可写时，会发送出去
         void OnMessage(SP_TcpConnection &sp_conn,Buffer &buff);
     private:
         SP_Message Parse(const char* buf,size_t len);

@@ -16,7 +16,7 @@ namespace afa
                        ::google::protobuf::Closure* done)
                        {
                            LOG_INFO(logger)<<"RpcServiceImpl::GetService()";
-                           response->set_message_name("ProtoResponse");
+                           response->set_message_name("afei's Response");
                        }
     };
 
