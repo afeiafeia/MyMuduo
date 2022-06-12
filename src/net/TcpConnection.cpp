@@ -66,10 +66,15 @@ namespace afa
            int n = m_read_buff.ReadFd(m_sp_channel->Getfd(),&err);
            if(n==0)
            {
+              LOG_DEBUG(logger)<<"收到FIN";
               LOG_ERROR(logger)<<"close fd: "<<m_sp_channel->Getfd();
               m_loop->QueueInLoop(std::bind(&EventLoop::EraseTimer,m_loop,m_timer));
-              CloseHandle();//关闭之前是不是要考虑把发送缓冲区中的数据发送出去？？？，应该关闭读端，继续监视写时间，写完之后自动关闭写端
-              
+              //CloseHandle();//关闭之前是不是要考虑把发送缓冲区中的数据发送出去？？？，应该关闭读端，继续监视写时间，写完之后自动关闭写端
+              m_first_fin++;
+              if(m_first_fin==2)
+              {
+                  CloseHandle();
+              }
               return;
            }
            else if(n<0)
@@ -125,7 +130,8 @@ namespace afa
         read_bytes = m_read_buff.ReadableBytes();
         LOG_DEBUG(logger)<<"readable bytes is: "<<read_bytes;
         std::string data = m_read_buff.ToString();
-        m_message_callBack(shared_from_this(),m_read_buff);
+        SP_TcpConnection self = shared_from_this();
+        m_message_callBack(self,m_read_buff);
         LOG_DEBUG(logger)<<"readed data is: "<<data;
         LOG_DEBUG(logger)<<"reading finish!";
         std::string response = m_write_buff.ToString();
@@ -202,13 +208,14 @@ namespace afa
         {
             m_sp_channel->DisableAll();
             SetState(DisConnected);
+            LOG_DEBUG(logger)<<"TcpConnection's CloseCallback";
+            if(m_close_callBack)
+            {
+                m_close_callBack(shared_from_this());
+            }
+            LOG_DEBUG(logger)<<"TcpConnection's CloseCallback Done";
         }
-        LOG_DEBUG(logger)<<"TcpConnection's CloseCallback";
-        if(m_close_callBack)
-        {
-            m_close_callBack(shared_from_this());
-        }
-        LOG_DEBUG(logger)<<"TcpConnection's CloseCallback Done";
+        
     }
 
     void TcpConnection::ErrorHandle()
@@ -220,10 +227,13 @@ namespace afa
 
     void TcpConnection::Send(std::string &msg)
     {
+         //有完整的相应消息被放入发送缓冲区，开始监视可写事件
+        LOG_INFO(logger)<<"push to write_buff!";
         m_write_buff.Append(msg);
-        m_write_buff.PrependInt32((int32_t)msg.size());
+        //m_write_buff.PrependInt32((int32_t)msg.size());
         if(!m_sp_channel->IsWriting())
         {
+            LOG_INFO(logger)<<"starting to listen writing event!";
             m_sp_channel->EnableWriting();
         }
     }
