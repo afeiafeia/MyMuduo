@@ -84,6 +84,7 @@ namespace afa
                 {
                     //解析失败不一定是报文错误，也可能报文不完整
                     LOG_ERROR(logger)<<"解析失败";
+                    sp_conn->CloseHandle();
                     //break;
                 }
             }
