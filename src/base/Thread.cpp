@@ -4,7 +4,7 @@
 #include <sys/syscall.h>
 #include <unistd.h>
 #include <stdio.h>
-
+#include <iostream>
 namespace afa
 {
     namespace CurrentThread
@@ -112,6 +112,7 @@ namespace afa
         if(pthread_create(&m_pthread_id,NULL,StartThread,pData))
         {
             //线程创建失败
+            std::cout<<"creating thread failed!"<<std::endl;
             m_started = false;
             delete pData;
         }

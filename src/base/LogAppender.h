@@ -11,12 +11,12 @@ namespace afa
         typedef std::shared_ptr<LogAppender> Ptr;
     private:
         LogLevel::Level               m_level;       //日志级别
-        std::shared_ptr<LogFormatter> m_sp_formatter;//日式格式器
+        std::shared_ptr<LogFormatter> m_spFormatter; //日式格式器
 
     public:
         LogAppender()
         :m_level(LogLevel::DEBUG)
-        ,m_sp_formatter(new LogFormatter())
+        ,m_spFormatter(new LogFormatter())
         {
 
         }
@@ -24,11 +24,11 @@ namespace afa
 
         LogFormatter::Ptr GetFormatter()
         {
-            return m_sp_formatter;
+            return m_spFormatter;
         }
         void SetFormatter(LogFormatter::Ptr sp_formatter)
         {
-            m_sp_formatter = sp_formatter;
+            m_spFormatter = sp_formatter;
         }
 
         LogLevel::Level GetLevel()

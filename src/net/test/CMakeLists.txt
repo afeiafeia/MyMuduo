@@ -15,12 +15,12 @@ set(PATH
 add_executable(test_eventloop test_eventloop.cpp)
 target_link_libraries(test_eventloop my_tiny_muduo_net)
 
-add_executable(test_echo test_echo.cpp)
+add_executable(echo_svr echo_svr.cpp)
 #target_link_libraries(test_echo ${PATH}/net/libmy_tiny_muduo_net.a ${PATH}/base/libmy_tiny_muduo_base.a pthread)
-target_link_libraries(test_echo my_tiny_muduo_net)
+target_link_libraries(echo_svr my_tiny_muduo_net)
 #
-add_executable(test_echo_main test_echo_main.cpp)
-target_link_libraries(test_echo_main my_tiny_muduo_net)
+add_executable(echo_client echo_client.cpp)
+target_link_libraries(echo_client my_tiny_muduo_net)
 ##
 add_executable(rpc_client ./rpc/client.cpp)
 target_link_libraries(rpc_client  my_tiny_muduo_net protobuf)

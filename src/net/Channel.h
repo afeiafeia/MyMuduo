@@ -7,7 +7,6 @@
 namespace afa
 {
     class EventLoop;
-
     class Channel
     {
     public:
@@ -32,6 +31,7 @@ namespace afa
         __uint32_t m_revents;  //就绪事件
 
         ChannelState m_state;  //标记描述符是否已注册到epoll
+        
 
         static const int s_readEvent;
         static const int s_writeEvent;

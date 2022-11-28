@@ -26,6 +26,15 @@ namespace afa
     void RpcServer::RegisterService(google::protobuf::Service* service)
     {
         const google::protobuf::ServiceDescriptor* descriptor = service->GetDescriptor();
+
+        //可以获取service所拥有的method
+        int methodCount = descriptor->method_count();
+        for(int i=0;i<methodCount;i++){
+            const google::protobuf::MethodDescriptor* f = descriptor->method(i);
+            std::string functionName = f->full_name();
+        }
+
+        
         std::string name = descriptor->full_name();
         m_map_nametoservice[name] = service;
         LOG_DEBUG(logger)<<"Registering service: "<<name;

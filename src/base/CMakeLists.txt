@@ -15,7 +15,7 @@ set(LIB_SRC
     Logger.cpp
     TimeStamp.cpp
 )
-add_library(my_tiny_muduo_base SHARED ${LIB_SRC})
+add_library(my_tiny_muduo_base STATIC ${LIB_SRC})
 target_link_libraries(my_tiny_muduo_base pthread)
 
 #install(TARGETS my_tiny_muduo_base DESTINATION lib)
@@ -23,4 +23,4 @@ target_link_libraries(my_tiny_muduo_base pthread)
 #file(GLOB HEADERS "*.h")
 #install(FILES ${HEADERS} DESTINATION include/mymuduo/base)
 #set_target_properties((my_tiny_muduo_base PROPERTIES OUTPUT_NAME "base")
-#add_subdirectory(test)
+add_subdirectory(test)

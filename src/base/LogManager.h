@@ -8,18 +8,16 @@
 #include <map>
 namespace afa
 {
+    const std::string RootLogger = "Root";   
     class LogManager
     {
     private:
-        Logger::Ptr m_root_logger;
-        std::map<std::string,Logger::Ptr> m_map_logger;
+        Logger::Ptr m_rootLogger;
+        std::map<std::string,Logger::Ptr> m_mapLogger;
         MutexLock m_lock;
     private:
         LogManager()
-        :m_root_logger(new Logger("root"))
-        {
-            m_map_logger["root"] = m_root_logger;
-        }
+        :m_rootLogger(){}
         ~LogManager(){};
         
     public:
@@ -31,17 +29,17 @@ namespace afa
 
         Logger::Ptr GetRoot()
         {
-            return m_root_logger;
+            return GetLog("root");
         }
 
         Logger::Ptr GetLog(const std::string &s)
         {
             MutexLockGuard guard(&m_lock);
-            if(m_map_logger.find(s)==m_map_logger.end())
+            if(m_mapLogger.find(s)==m_mapLogger.end())
             {
-                m_map_logger[s] = Logger::Ptr(new Logger(s));
+                m_mapLogger[s] = Logger::Ptr(new Logger(s));
             }
-            return m_map_logger[s];
+            return m_mapLogger[s];
         }
 
 

@@ -1,11 +1,4 @@
-/*
- * @Author: your name
- * @Date: 2022-04-17 18:52:01
- * @LastEditTime: 2022-04-18 13:58:13
- * @LastEditors: Please set LastEditors
- * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: /home/zaf/MyTinyMuduo/net/EventLoopThreadPool.cpp
- */
+
 #include "EventLoopThreadPool.h"
 #include "../base/Log.h"
 #include "../base/MutexLockGuard.h"

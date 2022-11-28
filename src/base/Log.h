@@ -1,3 +1,12 @@
+/**
+ * @copyright Copyright (c) 2022..
+ * 
+ * @file    Log.h
+ * @brief   日志
+ * @author  zhangafei
+ * @date    2022-09-15
+ * @email   1763029328@qq.com
+ */
 #ifndef Log_H
 #define Log_H
 
@@ -33,9 +42,7 @@
         afa::LogEventWarp(logger,afa::LogEvent::Ptr(new afa::LogEvent(level, \
         __FILE__,__func__,__LINE__,afa::CurrentThread::tid(), \
         0,time(0),std::string(afa::CurrentThread::name())) \
-        ).format(fmt,__VA_ARGS__)
-
-
+        )).format(fmt,__VA_ARGS__)
 
 
 

@@ -16,7 +16,7 @@ namespace afa
     private:
         int m_epollfd;
         std::vector<epoll_event> m_vctEvents;//用于epoll_wait的参数，存放返回的就绪的事件
-        int32_t                  m_max_fd;//所监视的最大描述符
+        int32_t                  m_maxFd;//所监视的最大描述符
 
 
     public:

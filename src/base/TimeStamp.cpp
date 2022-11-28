@@ -50,7 +50,4 @@ namespace afa
         m_time = new_time;
     }
 
-
-
-
 }

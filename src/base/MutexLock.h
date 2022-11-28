@@ -1,3 +1,4 @@
+
 #ifndef MUTEX_LOCK_H
 #define MUTEX_LOCK_H
 #include "noncopyable.h"
@@ -15,6 +16,12 @@ namespace afa
         void Lock();
         void UnLock();
 
+        /**
+         * @brief   获取指向互斥锁的指针
+         * @return  pthread_mutex_t* 
+         * @author  zhangafei
+         * @date    2022-09-15
+         */
         pthread_mutex_t* get()
         {
             return &m_pthread_mutex;

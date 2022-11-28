@@ -3,6 +3,8 @@
 
 #include <memory>
 #include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
 #include "LogEvent.h"
 #include "LogLevel.h"
 namespace afa
@@ -15,6 +17,25 @@ namespace afa
         virtual ~LogFormatterItem(){}
 
         virtual void Format(std::ostream &os,LogEvent::Ptr event)=0;
+    protected:
+        void output(std::ostream &os,std::string content,int placeHolders)
+        {
+            int charCount = static_cast<int>(content.size());
+            if(charCount<placeHolders)
+            {
+                os<<"["<<content;
+                int count = placeHolders - charCount;
+                while(count--)
+                {
+                    os<<" ";
+                }
+                os<<']';
+            }
+            else
+            {
+                os<<'['<<content.substr(0,placeHolders)<<']';
+            }
+        }
 
     };
 
@@ -26,13 +47,22 @@ namespace afa
     class LevelFormatterItem:public LogFormatterItem
     {
     public:
-        LevelFormatterItem(const std::string &s = ""){}
+        LevelFormatterItem(const std::string &s = "",int placeCount=0):placeHolders(placeCount){}
 
         void Format(std::ostream &os,LogEvent::Ptr event)
         {
-            //std::string ss = LogLevel::To_String(level);
-            os<<"["<<LogLevel::To_String(event->GetLogLevel())<<"]";
+            std::string level = LogLevel::To_String(event->GetLogLevel());
+            if (placeHolders==0)
+            {
+                os<<"["<<level<<"]";
+            }
+            else
+            {
+                output(os,level,placeHolders);
+            }
         }
+    private: 
+        int placeHolders;
     };
 
     /**
@@ -43,23 +73,27 @@ namespace afa
     class FileFormatterItem:public LogFormatterItem
     {
     public:
-        FileFormatterItem(const std::string &s = ""){}
+        FileFormatterItem(const std::string &s = "",int placeCount=0):placeHolders(placeCount){}
 
         void Format(std::ostream &os,LogEvent::Ptr event)
         {
             os<<"["<<event->GetFileName()<<":";
         }
+    private: 
+        int placeHolders;
     };
 
     class MethodFormatterItem:public LogFormatterItem
     {
     public:
-        MethodFormatterItem(const std::string &s = ""){}
+        MethodFormatterItem(const std::string &s = "",int placeCount=0):placeHolders(placeCount){}
 
         void Format(std::ostream &os,LogEvent::Ptr event)
         {
             os<<event->GetMethodName()<<"()"<<":";
         }
+    private: 
+        int placeHolders;
     };
 
     /**
@@ -70,12 +104,14 @@ namespace afa
     class LineFormatterItem:public LogFormatterItem
     {
     public:
-        LineFormatterItem(const std::string &s = ""){}
+        LineFormatterItem(const std::string &s = "",int placeCount=0):placeHolders(placeCount){}
 
         void Format(std::ostream &os,LogEvent::Ptr event)
         {
             os<<event->GetLine()<<"]";
         }
+    private: 
+        int placeHolders;
     };
 
         /**
@@ -86,12 +122,14 @@ namespace afa
     class NewLineFormatterItem:public LogFormatterItem
     {
     public:
-        NewLineFormatterItem(const std::string &s = ""){}
+        NewLineFormatterItem(const std::string &s = "",int placeCount=0):placeHolders(placeCount){}
 
         void Format(std::ostream &os,LogEvent::Ptr event)
         {
             os<<"\n";
         }
+    private: 
+        int placeHolders;
     };
 
     /**
@@ -102,12 +140,23 @@ namespace afa
     class ThreadIdFormatterItem:public LogFormatterItem
     {
     public:
-        ThreadIdFormatterItem(const std::string &s = ""){}
+        ThreadIdFormatterItem(const std::string &s = "",int placeCount=0):placeHolders(placeCount){}
 
         void Format(std::ostream &os,LogEvent::Ptr event)
         {
-            os<<"["<<event->GetThreadId()<<"]";
+            if(placeHolders==0)
+            {
+                os<<"["<<event->GetThreadId()<<"]";
+            }
+            else
+            {
+                char buff[16]={'\0'};
+                sprintf(buff,"%d",static_cast<int>(event->GetThreadId()));
+                output(os,std::string(buff),placeHolders);
+            }
         }
+    private: 
+        int placeHolders;
     };
 
     /**
@@ -118,12 +167,14 @@ namespace afa
     class FiberIdFormatterItem:public LogFormatterItem
     {
     public:
-        FiberIdFormatterItem(const std::string &s = ""){}
+        FiberIdFormatterItem(const std::string &s = "",int placeCount=0):placeHolders(placeCount){}
 
         void Format(std::ostream &os,LogEvent::Ptr event)
         {
             os<<"["<<event->GetFiberId()<<"]";
         }
+    private: 
+        int placeHolders;
     };
     
     /**
@@ -136,8 +187,9 @@ namespace afa
     private:
         std::string m_pattern;
     public:
-        TimeFormatterItem(const std::string &s = "%Y-%m-%d %H:%M:%S")
+        TimeFormatterItem(const std::string &s = "%Y-%m-%d %H:%M:%S",int placeCount=0)
         :m_pattern(s)
+        ,placeHolders(placeCount)
         {
 
         }
@@ -147,11 +199,19 @@ namespace afa
             struct tm t;
             time_t time = event->GetTime();
             localtime_r(&time,&t);
-            char buff[64];
+            char buff[64]={'\0'};
             strftime(buff,sizeof(buff),m_pattern.c_str(),&t);
-            os<<"["<<buff<<"]";
+            if(placeHolders==0)
+            {
+                os<<"["<<buff<<"]";
+            }
+            else
+            {
+                output(os,std::string(buff),placeHolders);
+            }
         }
-    
+    private: 
+        int placeHolders;
     };
 
     /**
@@ -162,12 +222,21 @@ namespace afa
     class ThreadNameFormatterItem:public LogFormatterItem
     {
     public:
-        ThreadNameFormatterItem(const std::string &s = ""){}
+        ThreadNameFormatterItem(const std::string &s = "",int placeCount=0):placeHolders(placeCount){}
 
         void Format(std::ostream &os,LogEvent::Ptr event)
         {
-            os<<"["<<event->GetThreadName()<<"]";
+            if(placeHolders==0)
+            {
+                os<<"["<<event->GetThreadName()<<"]";
+            }
+            else
+            {
+                output(os,event->GetThreadName(),placeHolders);
+            }
         }
+    private: 
+        int placeHolders;
     };
 
     /**
@@ -178,11 +247,20 @@ namespace afa
     class ContentFormatterItem:public LogFormatterItem
     {
     public:
-        ContentFormatterItem(const std::string &s=""){}
+        ContentFormatterItem(const std::string &s="",int placeCount=0):placeHolders(placeCount){}
         void Format(std::ostream &os,LogEvent::Ptr event)
         {
-            os<<"["<<event->GetContent()<<"]";
+            if(placeHolders==0)
+            {
+                os<<"["<<event->GetContent()<<"]";
+            }
+            else
+            {
+                output(os,event->GetContent(),placeHolders);
+            }
         }
+    private: 
+        int placeHolders;
 
     };
 
@@ -194,11 +272,13 @@ namespace afa
     class TabFormatterItem:public LogFormatterItem
     {
     public:
-        TabFormatterItem(const std::string &s=""){}
+        TabFormatterItem(const std::string &s="",int placeCount=0):placeHolders(placeCount){}
         void Format(std::ostream &os,LogEvent::Ptr event)
         {
-            os<<'\t';//制表符
+            os<<"  ";//制表符
         }
+    private: 
+        int placeHolders;
 
     };
 

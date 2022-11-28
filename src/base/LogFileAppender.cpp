@@ -2,28 +2,39 @@
 namespace afa
 {
     LogFileAppender::LogFileAppender(const std::string &path)
-    :m_file_path(path)
+    :m_filePath(path)
+    ,m_lock()
     {
         OpenFile();
     }
 
+    LogFileAppender::~LogFileAppender()
+    {
+        m_fileStream.flush();
+        m_fileStream.close();
+    }
+
     void LogFileAppender::Log(LogLevel::Level level,LogEvent::Ptr event)
     {
+        
+        MutexLockGuard guard(&m_lock);
         if(level<GetLevel())
         {
             return ;
         }
-        GetFormatter()->Format(m_file_stream,event);
-        m_file_stream.flush();
+        GetFormatter()->Format(m_fileStream,event);
+        m_fileStream.flush();
+        
+
     }
 
     void LogFileAppender::OpenFile()
     {
-        if(m_file_stream)
+        if(m_fileStream)
         {
-            m_file_stream.close();
+            m_fileStream.close();
         }
-        m_file_stream.open(m_file_path.c_str(), std::ios::app);   
+        m_fileStream.open(m_filePath.c_str(), std::ios::app);   
 
     }
 }

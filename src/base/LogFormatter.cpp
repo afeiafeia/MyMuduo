@@ -1,6 +1,8 @@
 #include "LogFormatter.h"
 #include <map>
 #include <functional>
+
+#include <iostream>
 namespace afa
 {
     LogFormatter::LogFormatter(const std::string &pattern)
@@ -26,8 +28,20 @@ namespace afa
             std::string format_str;
             int date_begin = i+1;
             int status = 0;
+            int placeHolders = 0;
             while(index<n)
             {
+                if(m_pattern[index]>='0'&&m_pattern[index]<='9')
+                {
+                    //是数字
+                    while(m_pattern[index]!='%'&&index<n){
+                        placeHolders = placeHolders*10+(m_pattern[index]-'0');
+                        index++;
+                    }
+                    i = index++;
+                    //std::cout<<placeHolders<<std::endl;
+                    continue;
+                }
                 if(!status&&!isalpha(m_pattern[index])&&m_pattern[index]!='{'&&m_pattern[index]!='}')
                 {
                     //正常格式下，在index处为%时进入
@@ -64,9 +78,9 @@ namespace afa
                 vct_items.push_back({cur_str,format_str});
             }
             i = index-1;//后续++会使得i从%开始
-            static std::map<std::string,std::function<LogFormatterItem::Ptr(const std::string &s)>> s_map_format_item = {
+            static std::map<std::string,std::function<LogFormatterItem::Ptr(const std::string &s,int place)>> s_map_format_item = {
 #define XX(str,C) \
-            {#str,[](const std::string &s){return LogFormatterItem::Ptr(new C(s));}}
+            {#str,[](const std::string &s,int place){return LogFormatterItem::Ptr(new C(s,place));}}
 
             XX(m,ContentFormatterItem),   //消息
             XX(p,LevelFormatterItem),     //日志等级
@@ -74,7 +88,7 @@ namespace afa
             XX(n,NewLineFormatterItem),   //换行
             XX(d,TimeFormatterItem),      //时间
             XX(l,LineFormatterItem),      //行号
-            XX(M,MethodFormatterItem),   //消息
+            XX(M,MethodFormatterItem),    //消息
             XX(F,FiberIdFormatterItem),   //协程Id
             XX(N,ThreadNameFormatterItem),//线程名称
             XX(f,FileFormatterItem),      //文件名称
@@ -83,25 +97,24 @@ namespace afa
             };
 
             int num_item = vct_items.size();
-            for(int i=0;i<num_item;++i)
+            for(int j=0;j<num_item;++j)
             {
-                std::string name = vct_items[i].first;
-                std::string content = vct_items[i].second; 
+                std::string name = vct_items[j].first;
+                std::string content = vct_items[j].second; 
                 if(s_map_format_item.find(name)!=s_map_format_item.end())
                 {
-                    m_vct_items.push_back(s_map_format_item[name](content));
+                    //std::cout<<placeHolders<<std::endl;
+                    m_vctItems.push_back(s_map_format_item[name](content,placeHolders));
                 }
             }
             vct_items.clear();
-
-            
         }
        
     }
 
     void LogFormatter::Format(std::ostream &os,LogEvent::Ptr event)
     {
-        for(auto& it:m_vct_items)
+        for(auto& it:m_vctItems)
         {
             it->Format(os,event);
         }

@@ -69,13 +69,13 @@ namespace afa
               LOG_DEBUG(logger)<<"收到FIN";
               LOG_ERROR(logger)<<"close fd: "<<m_sp_channel->Getfd();
               m_loop->QueueInLoop(std::bind(&EventLoop::EraseTimer,m_loop,m_timer));
-              //CloseHandle();//关闭之前是不是要考虑把发送缓冲区中的数据发送出去？？？，应该关闭读端，继续监视写时间，写完之后自动关闭写端
-              m_first_fin++;
-              if(m_first_fin==2)
-              {
-                  CloseHandle();
-              }
-              return;
+              CloseHandle();//关闭之前是不是要考虑把发送缓冲区中的数据发送出去？？？，应该关闭读端，继续监视写事件，写完之后自动关闭写端
+              //m_first_fin++;
+              //if(m_first_fin==2)
+              //{
+              //    CloseHandle();
+              //}
+              //return;
            }
            else if(n<0)
            {
@@ -130,9 +130,12 @@ namespace afa
         read_bytes = m_read_buff.ReadableBytes();
         LOG_DEBUG(logger)<<"readable bytes is: "<<read_bytes;
         std::string data = m_read_buff.ToString();
-        SP_TcpConnection self = shared_from_this();
-        m_message_callBack(self,m_read_buff);
         LOG_DEBUG(logger)<<"readed data is: "<<data;
+        SP_TcpConnection self = shared_from_this();
+        if(m_message_callBack){
+            m_message_callBack(self,m_read_buff);
+        }
+        //LOG_DEBUG(logger)<<"readed data is: "<<data;
         LOG_DEBUG(logger)<<"reading finish!";
         std::string response = m_write_buff.ToString();
         LOG_DEBUG(logger)<<"data in write_buff is: "<<response;
@@ -143,13 +146,12 @@ namespace afa
         m_loop->assertInLoopThread();
         int remain = m_write_buff.ReadableBytes();
         LOG_DEBUG(logger)<<"writable bytes is: "<<remain;
-        LOG_DEBUG(logger)<<"writing...";
         if(!m_sp_channel->IsETTrigger())
         {
             LOG_DEBUG(logger)<<"LT Model";
            int err;
            int nwrite = m_write_buff.WriteFd(m_sp_channel->Getfd(),&err);
-           LOG_DEBUG(logger)<<"Writed byytes is "<<nwrite;
+           LOG_DEBUG(logger)<<"Writed bytes is "<<nwrite;
            if(nwrite<0)
            {
                if(err!=EAGAIN&&err!=EWOULDBLOCK)

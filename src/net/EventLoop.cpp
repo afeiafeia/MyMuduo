@@ -9,6 +9,8 @@
 #include "EpollPoller.h"
 #include "Channel.h"
 #include "../base/Log.h"
+
+//获取日志输出器
 static afa::Logger::Ptr logger = LOG_ROOT();
 namespace afa
 {
@@ -24,6 +26,7 @@ namespace afa
         LOG_DEBUG(logger)<<"Creating eventfd: "<<evefd;
         return evefd;
     }
+
     EventLoop::EventLoop()
     :m_quit(false)
     ,m_threadId(CurrentThread::tid())
@@ -34,7 +37,7 @@ namespace afa
     ,m_mutex(MutexLock())
     ,m_timer_manager(this,3000)
     {
-        LOG_DEBUG(logger)<<"EventLoop: "<<this<<" is created in thread "<<CurrentThread::tid();
+        //LOG_DEBUG(logger)<<"EventLoop: "<<this<<" is created in thread "<<CurrentThread::tid();
 
         t_loopInThisThread = this;
         m_spWakeUpChannel->SetReadHandle(std::bind(&EventLoop::HandleRead,this));
@@ -43,9 +46,10 @@ namespace afa
 
     EventLoop::~EventLoop()
     {
-        LOG_DEBUG(logger)<< "EventLoop: " << this << " of thread " << m_threadId
-            << "is destructed in thread " << CurrentThread::tid();
+        //LOG_DEBUG(logger)<< "EventLoop: " << this << " of thread " << m_threadId
+            //<< "is destructed in thread " << CurrentThread::tid();
         //m_spWakeUpChannel->DisableAll();
+
         m_spWakeUpChannel->Remove();
         t_loopInThisThread = nullptr;
     }
@@ -62,15 +66,15 @@ namespace afa
     {
         assertInLoopThread();
         m_quit = false;
-        LOG_INFO(logger)<<"EventLoop: "<<this<<" in thread "<<m_threadId<<" start looping!";
+        //LOG_INFO(logger)<<"EventLoop: "<<this<<" in thread "<<m_threadId<<" start looping!";
         TimeStamp timeout(-1);
         while(m_quit==false)
         {
             std::vector<Channel*> vctActiveChannel;
-            LOG_INFO(logger)<<"Loop Wait!";
+            //LOG_INFO(logger)<<"Loop Wait!";
             m_spEpoll->Poll(vctActiveChannel,timeout);
             int num = vctActiveChannel.size();
-            LOG_DEBUG(logger)<<"Active Channel Num Is: "<<num;
+            //LOG_DEBUG(logger)<<"Active Channel Num Is: "<<num;
             for(int i=0;i<num;i++)
             {
                 vctActiveChannel[i]->HandleEvent();
@@ -81,14 +85,14 @@ namespace afa
                 break;
             }
         }
-        LOG_INFO(logger)<<"EventLoop: "<<this<<" in thread "<<m_threadId<<" stop looping!";
+        //LOG_INFO(logger)<<"EventLoop: "<<this<<" in thread "<<m_threadId<<" stop looping!";
     }
 
 
     void EventLoop::Quit()
     {
-        LOG_DEBUG(logger)<<"EventLoop: "<<this<<" of thread "<<m_threadId
-        <<" is quited by "<<CurrentThread::t_threadName<<" with threadId "<<CurrentThread::tid();
+        //LOG_DEBUG(logger)<<"EventLoop: "<<this<<" of thread "<<m_threadId
+        //<<" is quited by "<<CurrentThread::t_threadName<<" with threadId "<<CurrentThread::tid();
         //此函数由主线程调用，用来使工作线程结束loop循环
         m_quit = true;
         //由于工作线程此时可能阻塞，主线程需要将其唤醒

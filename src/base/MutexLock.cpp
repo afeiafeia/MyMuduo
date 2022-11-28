@@ -4,6 +4,7 @@ namespace afa
 {
     MutexLock::MutexLock()
     {
+        //第二个参数是属性
         pthread_mutex_init(&m_pthread_mutex,nullptr);
     }
 

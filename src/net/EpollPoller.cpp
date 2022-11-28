@@ -10,9 +10,9 @@ namespace afa
     EpollPoller::EpollPoller(EventLoop* loop)
     :Poller(loop)
     ,m_epollfd(epoll_create(1))
-    ,m_max_fd(16)
+    ,m_maxFd(16)
     {
-        m_vctEvents.reserve(m_max_fd);
+        m_vctEvents.reserve(m_maxFd);
     }
 
     EpollPoller::~EpollPoller()
@@ -80,10 +80,10 @@ namespace afa
             mapChannel[fd] = pChannel;
             EpollAdd(pChannel);
             pChannel->SetState(Channel::ChannelState::Registered);
-            if(m_max_fd<fd)
+            if(m_maxFd<fd)
             {
-                m_max_fd = fd;
-                m_vctEvents.reserve(m_max_fd);
+                m_maxFd = fd;
+                m_vctEvents.reserve(m_maxFd);
             }
             LOG_DEBUG(logger)<<"EpollPoller add channel with fd = "<<pChannel->Getfd();
         }
@@ -126,7 +126,7 @@ namespace afa
     void EpollPoller::Poll(std::vector<Channel*> &oActiveChannel,const TimeStamp &timeout)
     {
         int time0 = timeout.GetTime();
-        int num = epoll_wait(m_epollfd,&*m_vctEvents.begin(),m_max_fd,time0);
+        int num = epoll_wait(m_epollfd,&*m_vctEvents.begin(),m_maxFd,time0);
         LOG_DEBUG(logger)<<num <<"events is ready!";
         for(int i=0;i<num;i++)
         {

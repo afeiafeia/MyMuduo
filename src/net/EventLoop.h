@@ -125,10 +125,10 @@ namespace afa
 
         void EraseTimer(Timer* timer);
     private:
-        volatile std::atomic<bool>            m_quit;              //loop是否停止
+        volatile std::atomic<bool>   m_quit;              //loop是否停止
         const pid_t                  m_threadId;          //线程id
         int                          m_wakeId;            //事件描述符，用于唤醒工作线程（通过向描述符写入数据的方式）
-        bool                         m_isDoPendingFun;    //是否正在执行DoPendingFunctor,用于判断，避免在执行此函数区间再次对函数唤醒（再次唤醒时没有必要的）
+        bool                         m_isDoPendingFun;    //是否正在执行DoPendingFunctor,用于判断，避免在执行此函数期间再次对函数唤醒（再次唤醒时没有必要的）
         std::unique_ptr<Channel>     m_spWakeUpChannel;   //事件描述符对应的channel
         std::vector<Functor>         m_vctPendingFactor;  //待执行函数队列
         std::unique_ptr<EpollPoller> m_spEpoll;           //IO复用

@@ -47,8 +47,9 @@ namespace afa
         {
             MutexLockGuard lock(&mutex_);
             loop_ = &loop;
-            cond_.Signal();
         }
+        //应该先释放锁，再通知其他线程
+        cond_.Signal();
         loop_->Loop();
         m_quitCB(&loop);
         MutexLockGuard lock(&mutex_);

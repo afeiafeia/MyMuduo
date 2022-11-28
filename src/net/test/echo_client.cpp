@@ -13,7 +13,6 @@ int main()
     bzero(&addr,sizeof(addr));
     addr.sin_family = AF_INET;
     addr.sin_port = afa::Endian::HostToNetwork16(9876);
-    //addr.sin_port = 9876;
     inet_pton(AF_INET,"127.0.0.1",&addr.sin_addr);
 
     if(connect(fd,(struct sockaddr*)(&addr),sizeof(addr))<0)
@@ -30,8 +29,8 @@ int main()
     //while(1)
     {
         int writenum = write(fd,buff,12);
-        shutdown(fd,SHUT_WR);
-        sleep(1);
+        //shutdown(fd,SHUT_WR);
+        //sleep(1);
         int n = read(fd,read_buff,12);
         if(n<0)
         {
@@ -48,9 +47,9 @@ int main()
         std::cout<<read_buff<<std::endl;
         //break;
     }
-    sleep(10);
+   // sleep(10);
     std::cout<<"close关闭套接字"<<std::endl;
     close(fd);
-    sleep(10);
+    //sleep(10);
     return 0;
 }

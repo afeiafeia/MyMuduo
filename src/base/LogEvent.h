@@ -1,9 +1,19 @@
+/**
+ * @copyright Copyright (c) 2022..
+ * 
+ * @file    LogEvent.h
+ * @brief   描述
+ * @author  zhangafei
+ * @date    2022-09-15
+ */
+
 #ifndef LOG_EVENT_H
 #define LOG_EVENT_H
 #include <sstream>
 #include <string>
 #include <memory>
 #include "LogLevel.h"
+
 namespace afa
 {
     class Logger;
@@ -13,24 +23,24 @@ namespace afa
         typedef std::shared_ptr<LogEvent> Ptr;
     private:
         LogLevel::Level          m_level;           //日志级别
-        std::string              m_file_name;       //日志语句所在文件，通过__FILE__宏得到
-        std::string              m_method_name;     //日志语句所在函数，通过__func_宏得到
-        u_int32_t                m_line;            //行号
-        u_int32_t                m_thread_id;       //线程id
-        u_int32_t                m_fiber_id;        //协程id
-        u_int64_t                m_time;            //时间
-        std::string              m_thread_name;     //线程名称
-        std::string              m_format_content;  //格式化字符串，用于格式化输出日志时存储日志内容
-        std::stringstream        m_content_stream;  //字符串流，用于流式输出日志时存储日志内容
+        std::string              m_fileName;       //日志语句所在文件，通过__FILE__宏得到
+        std::string              m_methodName;     //日志语句所在函数，通过__func_宏得到
+        uint32_t                 m_line;            //行号
+        uint32_t                 m_threadId;       //线程id
+        uint32_t                 m_fiberId;        //协程id
+        uint64_t                 m_time;            //时间
+        std::string              m_threadName;     //线程名称
+        std::string              m_formatContent;  //格式化字符串，用于格式化输出日志时存储日志内容
+        std::stringstream        m_contentStream;  //字符串流，用于流式输出日志时存储日志内容
 
     public:
         LogEvent(LogLevel::Level level,
                 std::string      fileName,
                 std::string      methodName,
-                u_int32_t        line,
-                u_int32_t        threadId,
-                u_int32_t        fiberId,
-                u_int64_t        time,
+                uint32_t         line,
+                uint32_t         threadId,
+                uint32_t         fiberId,
+                uint64_t         time,
                 std::string      threadName);
 
         ~LogEvent();
@@ -50,10 +60,11 @@ namespace afa
          * @date   2022-03-25
          * @return std::string 
          */
-        std::string GetFileName(){return m_file_name;}
+        std::string GetFileName(){return m_fileName;}
 
 
-        std::string GetMethodName(){return m_method_name;}
+        
+        std::string GetMethodName(){return m_methodName;}
 
 
         /**
@@ -78,7 +89,7 @@ namespace afa
          * @date   2022-03-25
          * @return u_int32_t 
          */
-        u_int32_t GetThreadId(){return m_thread_id;}
+        u_int32_t GetThreadId(){return m_threadId;}
 
         /**
          * @brief  获取创建日志的协程的id
@@ -86,7 +97,7 @@ namespace afa
          * @date   2022-03-25
          * @return u_int32_t 
          */
-        u_int32_t GetFiberId(){return m_fiber_id;}
+        u_int32_t GetFiberId(){return m_fiberId;}
 
         /**
          * @brief  获取创建日志的线程的名称
@@ -94,7 +105,7 @@ namespace afa
          * @date   2022-03-25
          * @return std::string 
          */
-        std::string GetThreadName(){return m_thread_name;}
+        std::string GetThreadName(){return m_threadName;}
 
         /**
          * @brief  获取日志内容
@@ -102,9 +113,9 @@ namespace afa
          * @date   2022-03-25
          * @return std::string 
          */
-        std::string GetContent(){return m_content_stream.str();}
+        std::string GetContent(){return m_contentStream.str();}
 
-        std::stringstream& GetSS(){return m_content_stream;}
+        std::stringstream& GetSS(){return m_contentStream;}
 
         /**
          * @brief  格式化写入日志内容

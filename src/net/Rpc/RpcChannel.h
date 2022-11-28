@@ -7,7 +7,7 @@
 #include "../protobuf/CodeC.h"
 #include "../TcpConnection.h"
 #include "rpc.pb.h"
-
+#include "../../base/Semaphore.h"
 //C++
 #include <memory>
 
@@ -38,14 +38,17 @@ namespace afa
 
         void SetRegisterServices(const std::map<std::string,google::protobuf::Service*> &map_services)
         {
-            m_map_nametoservice = map_services;
+            m_mapNameToService = map_services;
         }
     private:
         std::atomic_uint64_t m_id;
         ErrorCode m_error;
         ProtobufCodeC m_codec;
         SP_TcpConnection m_sp_conn;
-        std::map<std::string,google::protobuf::Service*> m_map_nametoservice;
+        std::map<std::string,google::protobuf::Service*> m_mapNameToService;
+
+        std::map<int,std::shared_ptr<google::protobuf::Message>> m_mapResponse;
+        std::map<int,Semaphore> m_Notify;
     };
 }
 

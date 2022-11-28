@@ -1,6 +1,5 @@
 #ifndef CODEC_H
 #define CODEC_H
-
 #include "../TcpConnection.h"
 #include "../Buffer.h"
 
@@ -10,7 +9,7 @@
 #include <string>
 namespace afa
 {
-    //数据格式
+    //头部格式
     /*
         int32_t len           //存在Buffer的前八个字节
         int32_t name_len      //对应Buffer的m_read_index
@@ -34,12 +33,12 @@ namespace afa
 
         void SetMessageCallBack(const MessageCallBack &cb)
         {
-            m_message_cb = cb;
+            m_messageCB = cb;
         }
 
         void SetErrorCallBack(ErrorCallBack &cb)
         {
-            m_error_cb = cb;
+            m_errorCB = cb;
         }
 
         /**
@@ -49,16 +48,38 @@ namespace afa
          * @author afei
          * @date   2022-04-22
          */
-        void Send(SP_TcpConnection &sp_conn,const google::protobuf::Message &msg);
-        //解析buff中存储的消息，并根据解析的结果构造相应的回复报文，并发送到tcp的发送缓冲区中，等tcp套接字可写时，会发送出去
-        void OnMessage(SP_TcpConnection &sp_conn,Buffer &buff);
+        void Send(SP_TcpConnection &spTcpConn,const google::protobuf::Message &msg);
+        
+        /**
+         * @brief   解析buff中存储的消息，并根据解析的结果构造相应的回复报文，发送到tcp的发送缓冲区中，等tcp套接字可写时，会发送出去
+         * @param   spConn     tcp连接
+         * @param   buff       缓冲区
+         * @author  zhangafei
+         * @date    2022-09-16
+         */
+        void DecodeMessage(SP_TcpConnection &sp_conn,Buffer &buff);
     private:
+        /**
+         * @brief   根据缓冲区中的数据解析出消息
+         * @param   buf         缓冲区指针
+         * @param   len         缓冲区有效长度
+         * @return  SP_Message 
+         * @author  zhangafei
+         * @date    2022-09-16
+         */
         SP_Message Parse(const char* buf,size_t len);
-        google::protobuf::Message* CreateMessage(std::string tyne_name);
+        /**
+         * @brief   根据解析出的消息的类型名称，创建出指定的类型
+         * @param   tyneName   消息类型的名称
+         * @return  google::protobuf::Message* 指向所创建类型的基类指针
+         * @author  zhangafei
+         * @date    2022-09-16
+         */
+        google::protobuf::Message* CreateMessage(std::string tyneName);
 
     private:
-        MessageCallBack m_message_cb;
-        ErrorCallBack   m_error_cb;
+        MessageCallBack m_messageCB;  //消息回调
+        ErrorCallBack   m_errorCB;
 
         const static int s_header_len = sizeof(int32_t);
         const static int s_min_msg_len = 2*s_header_len;
